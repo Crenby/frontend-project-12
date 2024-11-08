@@ -1,8 +1,7 @@
-import { useState } from 'react'
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import NotFound from './components/notFound.jsx'
 import Login from './components/login.jsx'
+import Chat from './components/chat.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -20,7 +19,7 @@ function App() {
           <Routes>
             <Route path="*" element={<NotFound />} />
             <Route path="login" element={<Login />} />
-            {/*<Route path="/" element={<Login />} />*/}
+            <Route path="/" element={<Chat />} />
           </Routes>
 
       </div>
