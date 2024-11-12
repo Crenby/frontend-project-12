@@ -8,7 +8,7 @@ import { useState } from 'react';
 import cn from 'classnames';
 
 const Login = () => {
-  const name = useSelector((state) => state.authorization.name);
+  //const name = useSelector((state) => state.authorization.name);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [authorizationFailed, setAuthorizationFailed] = useState(false);
