@@ -11,7 +11,7 @@ const Chat = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const channels = useSelector((state) => state.channels.channels);
-  const activeChannel = useSelector((state) => state.channels.activeChannel.name);
+  const activeChannel = useSelector((state) => state.channels.activeChannel);
 
   useEffect(() => {
     if (!localStorage.getItem('userToken')) {
@@ -22,7 +22,6 @@ const Chat = () => {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
       }).then((response) => {
-        console.log(response.data);
         dispatch(getChannels(response.data));
       });
     }
@@ -45,7 +44,7 @@ const Chat = () => {
             <ul className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
               {channels.map((channel, i) => {
                 const channelActiveClass = cn("w-100", "rounded-0", "text-start", "btn", {
-                  "btn-secondary":  channel.name === activeChannel,
+                  "btn-secondary":  channel.name === activeChannel.name,
                 })
 
                 return (

@@ -13,9 +13,6 @@ const authorizationSlice = createSlice({
     authorization: (state) => {
       state.userName = localStorage.getItem('userName');
       state.userToken = localStorage.getItem('userToken');
-      console.log(state.userName);
-      console.log(state.userToken);
-      console.log(state.status);
     },
     changeStatus: (state, { payload: status }) => {
       state.status = status;
