@@ -4,7 +4,10 @@
   "description": "[![Actions Status](https://github.com/Crenby/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Crenby/frontend-project-12/actions)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm run build --prefix frontend",
+    "start": "start-server -s ./frontend/build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd frontend && npm ci"
   },
   "author": "",
   "license": "ISC",
