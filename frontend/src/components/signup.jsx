@@ -62,10 +62,13 @@ const SignUp = () => {
           switch (error.path) {
             case 'userName':
               setUserNameError(error.message);
+              break;
             case 'userPassword':
               setUserPassError(error.message);
+              break;
             case 'confirmPassword':
               setPassConfirmError(error.message);
+              break;
           }
         })
     },
@@ -97,7 +100,7 @@ const SignUp = () => {
                   <div className="form-floating mb-3">
                     <input placeholder={t('signUpPage.minUsernameLenght')} name="userName" autoComplete="userName" required="" id="username" className={inputClass(userNameError)} onChange={formik.handleChange} value={formik.values.userName} />
                     <label className="form-label" htmlFor="userName">{t('signUpPage.username')}</label>
-                    {userNameError ? <div placement="right" className="invalid-tooltip" style={{ display: 'block' }}>{userNameError}</div> : null}
+                    {userNameError ? <div className="invalid-tooltip" style={{ display: 'block' }}>{userNameError}</div> : null}
                   </div>
                   <div className="form-floating mb-3">
                     <input placeholder={t('signUpPage.minPasswordLenght')} name="userPassword" aria-describedby="passwordHelpBlock" required="" autoComplete="new-password" type="password" id="password" className={inputClass(userPassError)} onChange={formik.handleChange} value={formik.values.userPassword} />

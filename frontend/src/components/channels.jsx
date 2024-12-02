@@ -74,7 +74,7 @@ const Channels = () => {
         dispatch(getChannels(response.data));
       });
     }
-  }, []);
+  }); ///jkhjkhjk
 
   const formik = useFormik({
     initialValues: {
@@ -141,7 +141,7 @@ const Channels = () => {
         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
       },
     })
-      .then((response) => {
+      .then(() => {
         dispatch(setActiveChannel({ name: 'general', channelId: "1", }));
         toast.warn(t('toast.removeChannel'));
       })
@@ -303,7 +303,7 @@ const Channels = () => {
                     <button onClick={() => openActiveBtn(i)} id={i} type="button" aria-expanded="false" className={btnActiveClass}>
                       <span className="visually-hidden">{t('channelControl')}</span>
                     </button>
-                    <div id={i} x-placement="bottom-end" aria-labelledby="" className={actionMenuClass} data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom-end" style={{ position: 'absolute', inset: '0px 0px auto auto', transform: 'translate(0px, 40px)' }}>
+                    <div id={i} aria-labelledby="" className={actionMenuClass} data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom-end" style={{ position: 'absolute', inset: '0px 0px auto auto', transform: 'translate(0px, 40px)' }}>
                       <a onClick={() => openModalRemoveChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" role="button" tabIndex="0" href="#">{t('remove')}</a>
                       <a onClick={() => openModalRenameChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" role="button" tabIndex="0" href="#">{t('rename')}</a>
                     </div>

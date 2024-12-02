@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useTranslation } from 'react-i18next';
 
-export default () => {
+const NotFound = () => {
   const { t } = useTranslation();
 
   return (
@@ -20,3 +20,5 @@ export default () => {
     </>
   )
 };
+
+export default NotFound;

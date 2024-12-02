@@ -31,7 +31,7 @@ const Login = () => {
           dispatch(authorization())
           navigate('/', { replace: false });
         })
-        .catch((error) => {
+        .catch(() => {
           localStorage.clear();
           setAuthorizationFailed(true);
         });

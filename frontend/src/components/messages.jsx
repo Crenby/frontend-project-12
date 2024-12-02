@@ -35,7 +35,7 @@ const Messages = () => {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
-      }).then((response) => {
+      }).then(() => {
 
       });
       values.messageText = '';
@@ -50,7 +50,7 @@ const Messages = () => {
     }).then((response) => {
       dispatch(getMessages(response.data));
     });
-  }, []);
+  });
 
   return (
     <>
