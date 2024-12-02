@@ -1,13 +1,15 @@
-import { Formik, Form, Field, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { authorization, changeStatus } from '../slices/authorizationSlice.js';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 const Login = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [authorizationFailed, setAuthorizationFailed] = useState(false);
@@ -41,57 +43,64 @@ const Login = () => {
   })
 
   return (
-    <div className="container-fluid h-100">
-      <div className="row justify-content-center align-content-center h-100">
-        <div className="col-12 col-md-8 col-xxl-6">
-          <div className="card shadow-sm">
+    <>
+      <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
+        <div className="container">
+          <a className="navbar-brand" href="/"> Hexlet Chat</a>
+        </div>
+      </nav>
+      <div className="container-fluid h-100">
+        <div className="row justify-content-center align-content-center h-100">
+          <div className="col-12 col-md-8 col-xxl-6">
+            <div className="card shadow-sm">
 
-            <div className="card-body row p-5">
-              <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                <img src="..\src\assets\loginLogo.jfif" className="rounded-circle" alt="Войти"></img>
+              <div className="card-body row p-5">
+                <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+                  <img src="..\src\assets\loginLogo.jfif" className="rounded-circle" alt={t('enter')}></img>
+                </div>
+                <form className="col-12 col-md-6 mt-3 mt-md-0" onSubmit={formik.handleSubmit}>
+                  <h1 className="text-center mb-4"> {t('enter')} </h1>
+
+                  <div className="form-floating mb-3">
+                    <input
+                      className={inputClass}
+                      id="name"
+                      name="name"
+                      type="name"
+                      onChange={formik.handleChange}
+                      value={formik.values.name}
+                    />
+                    <label htmlFor="name">{t('username')}</label>
+                  </div>
+
+                  <div className="form-floating mb-4">
+                    <input
+                      className={inputClass}
+                      id="password"
+                      name="password"
+                      type="password"
+                      onChange={formik.handleChange}
+                      value={formik.values.password}
+                    />
+                    <label className="form-label" htmlFor="password">{t('password')}</label>
+                    {authorizationFailed ? <div className="invalid-tooltip">{t('noValidUsername')}</div> : null}
+                  </div>
+
+                  <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('enter')}</button>
+                </form>
               </div>
-              <form className="col-12 col-md-6 mt-3 mt-md-0" onSubmit={formik.handleSubmit}>
-                <h1 className="text-center mb-4"> Войти </h1>
 
-                <div className="form-floating mb-3">
-                  <input
-                    className={inputClass}
-                    id="name"
-                    name="name"
-                    type="name"
-                    onChange={formik.handleChange}
-                    value={formik.values.name}
-                  />
-                  <label htmlFor="name">Ваш ник</label>
+              <div className="card-footer p-4">
+                <div className="text-center">
+                  <span>{t('notAccount')} </span>
+                  <a href="/signup">{t('signUp')}</a>
                 </div>
-
-                <div className="form-floating mb-4">
-                  <input
-                    className={inputClass}
-                    id="password"
-                    name="password"
-                    type="password"
-                    onChange={formik.handleChange}
-                    value={formik.values.password}
-                  />
-                  <label className="form-label" htmlFor="password">Пароль</label>
-                  {authorizationFailed ? <div className="invalid-tooltip">Неверные имя пользователя или пароль</div> : null}
-                </div>
-
-                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти</button>
-              </form>
-            </div>
-
-            <div className="card-footer p-4">
-              <div className="text-center">
-                <span>Нет аккаунта? </span>
-                <a href="/signup">Регистрация</a>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 };
 

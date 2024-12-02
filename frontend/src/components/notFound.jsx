@@ -1,14 +1,22 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useTranslation } from 'react-i18next';
 
 export default () => {
+  const { t } = useTranslation();
+
   return (
     <>
-      <div className="text-center"> 
-        <img alt="Страница не найдена" className="img-fluid h-25" src="..\src\assets\notfound.svg"></img>
-        <h1 className="h4 text-muted">Страница не найдена</h1>
-        <p className="text-muted"> Но вы можете перейти <a href="/">на главную страницу</a></p>
+      <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
+        <div className="container">
+          <a className="navbar-brand" href="/"> Hexlet Chat</a>
+        </div>
+      </nav>
+
+      <div className="text-center">
+        <img alt={t('notFound')} className="img-fluid h-25" src="..\src\assets\notfound.svg"></img>
+        <h1 className="h4 text-muted">{t('notFound')}</h1>
+        <p className="text-muted"> {t('youCanGo')} <a href="/">{t('toHomePage')}</a></p>
       </div>
     </>
   )
 };
- 

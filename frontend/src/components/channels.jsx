@@ -9,7 +9,8 @@ import { useFormik } from 'formik';
 import { io } from 'socket.io-client';
 import store from '../slices/index.js';
 import * as yup from 'yup';
-import useOnClickOutside from 'use-onclickoutside'
+import useOnClickOutside from 'use-onclickoutside';
+import { useTranslation } from 'react-i18next';
 
 const socket = io();
 const { dispatch } = store;
@@ -37,6 +38,7 @@ socket.on('renameChannel', () => {
 });
 
 const Channels = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const channels = useSelector((state) => state.channels.channels);
@@ -49,10 +51,10 @@ const Channels = () => {
 
   function validate(fields) {
     const schema = yup.object().shape({
-      channelName: yup.string().required('Обязательное поле')
-        .min(3, 'От 3 до 20 символов')
-        .max(20, 'От 3 до 20 символов')
-        .notOneOf(channels.map(channel => channel.name), 'Должно быть уникальным')
+      channelName: yup.string().required(t('required'))
+        .min(3, t('min'))
+        .max(20, t('max'))
+        .notOneOf(channels.map(channel => channel.name), t('duplicate'))
     });
     return schema.validate(fields);
   }
@@ -164,20 +166,20 @@ const Channels = () => {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <div className="modal-title h4">Добавить канал</div>
+              <div className="modal-title h4">{t('modals.addChannel')}</div>
               <button onClick={closeModalAddChannel} type="button" aria-label="Close" data-bs-dismiss="modal" className="btn btn-close"></button>
             </div>
             <div className="modal-body">
               <form className="" onSubmit={formik.handleSubmit}>
                 <div>
                   <input name="channelName" id="channelName" className={inputClass} onChange={formik.handleChange} value={formik.values.channelName} />
-                  <label className="visually-hidden" htmlFor="name">Имя канала</label>
+                  <label className="visually-hidden" htmlFor="name">{t('modals.nameChannel')}</label>
 
                   {addChannelError ? <div className="invalid-feedback" style={{ display: 'block' }}>{addChannelError}</div> : null}
 
                   <div className="d-flex justify-content-end">
-                    <button onClick={closeModalAddChannel} type="button" className="me-2 btn btn-secondary">Отменить</button>
-                    <button type="submit" className="btn btn-primary">Отправить</button>
+                    <button onClick={closeModalAddChannel} type="button" className="me-2 btn btn-secondary">{t('modals.cancelButton')}</button>
+                    <button type="submit" className="btn btn-primary">{t('send')}</button>
                   </div>
                 </div>
               </form>
@@ -195,14 +197,14 @@ const Channels = () => {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <div className="modal-title h4">Удалить канал</div>
+              <div className="modal-title h4">{t('modals.removeChannel')}</div>
               <button onClick={closeModalRemoveChannel} type="button" aria-label="Close" data-bs-dismiss="modal" className="btn btn-close"></button>
             </div>
             <div className="modal-body">
-              <p className="lead">Уверены?</p>
+              <p className="lead">{t('modals.questionInModal')}</p>
               <div className="d-flex justify-content-end">
-                <button onClick={closeModalRemoveChannel} type="button" className="me-2 btn btn-secondary">Отменить</button>
-                <button onClick={removeChannel} type="button" className="btn btn-danger">Удалить</button>
+                <button onClick={closeModalRemoveChannel} type="button" className="me-2 btn btn-secondary">{t('modals.cancelButton')}</button>
+                <button onClick={removeChannel} type="button" className="btn btn-danger">{t('modals.removeButton')}</button>
               </div>
             </div>
           </div>
@@ -218,18 +220,18 @@ const Channels = () => {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <div className="modal-title h4">Переименовать канал</div>
+              <div className="modal-title h4">{t('modals.renameChannel')}</div>
               <button onClick={closeModalRenameChannel} type="button" aria-label="Close" data-bs-dismiss="modal" className="btn btn-close"></button>
             </div>
             <div className="modal-body">
               <form className="" onSubmit={formikRename.handleSubmit}>
                 <div>
                   <input name="newChannelName" id="newChannelName" className="mb-2 form-control" onChange={formikRename.handleChange} value={formikRename.values.newChannelName} />
-                  <label className="visually-hidden" htmlFor="newChannelName">Имя канала</label>
+                  <label className="visually-hidden" htmlFor="newChannelName">{t('modals.nameChannel')}</label>
                   <div className="invalid-feedback"></div>
                   <div className="d-flex justify-content-end">
-                    <button onClick={closeModalRenameChannel} type="button" className="me-2 btn btn-secondary">Отменить</button>
-                    <button type="submit" className="btn btn-primary">Отправить</button>
+                    <button onClick={closeModalRenameChannel} type="button" className="me-2 btn btn-secondary">{t('modals.cancelButton')}</button>
+                    <button type="submit" className="btn btn-primary">{t('send')}</button>
                   </div>
                 </div>
               </form>
@@ -286,11 +288,11 @@ const Channels = () => {
                 {channel.removable ?
                   <>
                     <button onClick={() => openActiveBtn(i)} id={i} type="button" aria-expanded="false" className={btnActiveClass}>
-                      <span className="visually-hidden">Управление каналом</span>
+                      <span className="visually-hidden">{t('channelControl')}</span>
                     </button>
                     <div id={i} x-placement="bottom-end" aria-labelledby="" className={actionMenuClass} data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom-end" style={{ position: 'absolute', inset: '0px 0px auto auto', transform: 'translate(0px, 40px)' }}>
-                      <a onClick={() => openModalRemoveChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" role="button" tabIndex="0" href="#">Удалить</a>
-                      <a onClick={() => openModalRenameChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" role="button" tabIndex="0" href="#">Переименовать</a>
+                      <a onClick={() => openModalRemoveChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" role="button" tabIndex="0" href="#">{t('remove')}</a>
+                      <a onClick={() => openModalRenameChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" role="button" tabIndex="0" href="#">{t('rename')}</a>
                     </div>
                   </> : null}
               </div>
