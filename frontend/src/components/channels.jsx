@@ -12,6 +12,8 @@ import * as yup from 'yup';
 import useOnClickOutside from 'use-onclickoutside';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import leoProfanity from 'leo-profanity';
+import 'react-toastify/dist/ReactToastify.css';
 
 const socket = io();
 const { dispatch } = store;
@@ -82,7 +84,8 @@ const Channels = () => {
     onSubmit: (values) => {
       validate({ channelName: values.channelName })
         .then(() => {
-          const newChannel = { name: values.channelName };
+          const cleanedName = leoProfanity.clean(values.channelName);
+          const newChannel = { name: cleanedName };
           axios.post('/api/v1/channels', newChannel, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -157,7 +160,8 @@ const Channels = () => {
 
   const renameChannel = (newName) => {
     setModalRenameChannel(false);
-    const editedChannel = { name: newName };
+    const cleanedName = leoProfanity.clean(newName);
+    const editedChannel = { name: cleanedName };
     axios.patch(`/api/v1/channels/${modalRenameChannel}`, editedChannel, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -260,12 +264,6 @@ const Channels = () => {
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>Каналы</b>
-
-        {/* <div>
-          <button onClick={() => notify('sad')}>Notify!</button>
-          <ToastContainer />
-        </div> */}
-
         <button onClick={openModalAddChannel} className="p-0 text-primary btn btn-group-vertical">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor"><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"></path><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path></svg>
           <span className="visually-hidden">+</span>

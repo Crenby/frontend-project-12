@@ -7,6 +7,7 @@ import { useFormik } from 'formik';
 import { io } from 'socket.io-client';
 import store from '../slices/index.js';
 import { useTranslation } from 'react-i18next';
+import leoProfanity from 'leo-profanity';
 
 const socket = io();
 const { dispatch } = store;
@@ -27,7 +28,9 @@ const Messages = () => {
     },
 
     onSubmit: (values) => {
-      const newMessage = { body: values.messageText, channelId: activeChannel.channelId, username: localStorage.getItem('userName') };
+      const cleanedMessage = leoProfanity.clean(values.messageText);
+      const newMessage = { body: cleanedMessage, channelId: activeChannel.channelId, username: localStorage.getItem('userName') };
+      
       axios.post('/api/v1/messages', newMessage, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
