@@ -8,9 +8,9 @@ import resources from './locales/index.js';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import rollbarConfig from './rollbar/rollbarConfig.js';
 
-const Init = async () => {
+const Init =() => {
   const i18n = i18next.createInstance();
-  await i18n
+  i18n
     .use(initReactI18next)
     .init({
       resources,
@@ -32,4 +32,4 @@ const Init = async () => {
 
 export default Init;
 
-createRoot(document.getElementById('root')).render(await Init());
+createRoot(document.getElementById('root')).render(Init());
