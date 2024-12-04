@@ -294,7 +294,7 @@ const Channels = () => {
           return (
             <li key={i} className="nav-item w-100">
               <div ref={ref} role="group" className="d-flex dropdown btn-group">
-                <button name={channel.name} onClick={() => dispatch(setActiveChannel(channel))} className={channelActiveClass}>
+                <button aria-label={channel.name} onClick={() => dispatch(setActiveChannel(channel))} className={channelActiveClass}>
                   <span className="me-1"># {channel.name}</span>
                 </button>
                 {channel.removable ?
