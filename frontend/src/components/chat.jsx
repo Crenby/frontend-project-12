@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Messages from './messages.jsx';
 import Channels from './channels.jsx';
 import { useNavigate } from "react-router-dom";

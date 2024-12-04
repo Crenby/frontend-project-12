@@ -3,7 +3,6 @@ import NotFound from './components/notFound.jsx';
 import Login from './components/login.jsx';
 import Chat from './components/chat.jsx';
 import SignUp from './components/signup.jsx';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer } from 'react-toastify';
 
 function App() {

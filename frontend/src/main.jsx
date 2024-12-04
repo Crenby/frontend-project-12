@@ -7,8 +7,10 @@ import { I18nextProvider, initReactI18next } from 'react-i18next';
 import resources from './locales/index.js';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import rollbarConfig from './rollbar/rollbarConfig.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 
-const Init =() => {
+const init =() => {
   const i18n = i18next.createInstance();
   i18n
     .use(initReactI18next)
@@ -30,6 +32,4 @@ const Init =() => {
   )
 }
 
-export default Init;
-
-createRoot(document.getElementById('root')).render(Init());
+createRoot(document.getElementById('root')).render(init());

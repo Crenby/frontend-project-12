@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { getMessages, addMessages } from '../slices/messagesSlice.js';
@@ -50,7 +49,7 @@ const Messages = () => {
     }).then((response) => {
       dispatch(getMessages(response.data));
     });
-  });
+  }, []);
 
   return (
     <>

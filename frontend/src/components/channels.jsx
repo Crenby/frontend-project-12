@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,7 +12,6 @@ import useOnClickOutside from 'use-onclickoutside';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
-import 'react-toastify/dist/ReactToastify.css';
 
 const socket = io();
 const { dispatch } = store;
@@ -74,7 +72,7 @@ const Channels = () => {
         dispatch(getChannels(response.data));
       });
     }
-  }); ///jkhjkhjk
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -295,7 +293,8 @@ const Channels = () => {
             <li key={i} className="nav-item w-100">
               <div ref={ref} role="group" className="d-flex dropdown btn-group">
                 <button aria-label={channel.name} onClick={() => dispatch(setActiveChannel(channel))} className={channelActiveClass}>
-                  <span className="me-1"># {channel.name}</span>
+                  <span className="me-1">#</span>
+                  {channel.name}
                 </button>
                 {channel.removable ?
                   <>

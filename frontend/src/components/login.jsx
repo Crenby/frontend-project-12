@@ -1,5 +1,4 @@
 import { useFormik } from 'formik';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch } from 'react-redux';
 import { authorization, changeStatus } from '../slices/authorizationSlice.js';
 import axios from 'axios';

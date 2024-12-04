@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { useFormik } from 'formik';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
