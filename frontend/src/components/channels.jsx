@@ -294,9 +294,8 @@ const Channels = () => {
           return (
             <li key={i} className="nav-item w-100">
               <div ref={ref} role="group" className="d-flex dropdown btn-group">
-                <button onClick={() => dispatch(setActiveChannel(channel))} className={channelActiveClass}>
-                  <span className="me-1">#</span>
-                  {channel.name}
+                <button name={channel.name} onClick={() => dispatch(setActiveChannel(channel))} className={channelActiveClass}>
+                  <span className="me-1"># {channel.name}</span>
                 </button>
                 {channel.removable ?
                   <>
