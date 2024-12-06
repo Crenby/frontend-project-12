@@ -184,7 +184,7 @@ const Channels = () => {
               <form className="" onSubmit={formik.handleSubmit}>
                 <div>
                   <input name="channelName" id="channelName" className={inputClass} onChange={formik.handleChange} value={formik.values.channelName} />
-                  <label className="visually-hidden" htmlFor="name">{t('modals.nameChannel')}</label>
+                  <label className="visually-hidden" htmlFor="channelName">{t('modals.nameChannel')}</label>
 
                   {addChannelError ? <div className="invalid-feedback" style={{ display: 'block' }}>{addChannelError}</div> : null}
 
