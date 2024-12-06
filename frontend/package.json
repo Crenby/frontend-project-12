@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "npx start-server -s ./frontend",
+    "start": "react-scripts start"
     "serve": "vite preview"
   },
   "dependencies": {
