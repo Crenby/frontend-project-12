@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import NotFound from './components/notFound.jsx';
 import Login from './components/login.jsx';
 import Chat from './components/chat.jsx';
 import SignUp from './components/signup.jsx';
-import { ToastContainer } from 'react-toastify';
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <div className="d-flex flex-column h-100">
@@ -34,4 +34,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

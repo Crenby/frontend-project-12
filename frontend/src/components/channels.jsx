@@ -1,42 +1,16 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import leoProfanity from 'leo-profanity';
 import { getChannels, setActiveChannel } from '../slices/channelsSlice.js';
 import axios from 'axios';
 import cn from 'classnames';
 import { useFormik } from 'formik';
 import { io } from 'socket.io-client';
-import store from '../slices/index.js';
 import * as yup from 'yup';
 import useOnClickOutside from 'use-onclickoutside';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import leoProfanity from 'leo-profanity';
-
-const socket = io();
-const { dispatch } = store;
-
-function upDataChannels() {
-  axios.get('/api/v1/channels', {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-    },
-  }).then((response) => {
-    dispatch(getChannels(response.data));
-  });
-}
-
-socket.on('newChannel', () => {
-  upDataChannels();
-});
-
-socket.on('removeChannel', () => {
-  upDataChannels();
-});
-
-socket.on('renameChannel', () => {
-  upDataChannels();
-});
 
 const Channels = () => {
   const { t } = useTranslation();
@@ -49,6 +23,30 @@ const Channels = () => {
   const [actionMenu, setActionMenu] = useState(false);
   const [modalRemoveChannel, setModalRemoveChannel] = useState(false);
   const [modalRenameChannel, setModalRenameChannel] = useState(false);
+
+  const socket = io();
+
+  function upDataChannels() {
+    axios.get('/api/v1/channels', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+      },
+    }).then((response) => {
+      dispatch(getChannels(response.data));
+    });
+  }
+
+  socket.on('newChannel', () => {
+    upDataChannels();
+  });
+
+  socket.on('removeChannel', () => {
+    upDataChannels();
+  });
+
+  socket.on('renameChannel', () => {
+    upDataChannels();
+  });
 
   function validate(fields) {
     const schema = yup.object().shape({

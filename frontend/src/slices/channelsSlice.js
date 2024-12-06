@@ -4,7 +4,7 @@ const initialState = {
   channels: [],
   activeChannel: {
     name: 'general',
-    channelId: "1",
+    channelId: '1',
   },
 };
 
@@ -15,7 +15,7 @@ const channelsSlice = createSlice({
     getChannels: (state, { payload: channels }) => {
       state.channels = channels;
     },
-    setActiveChannel: (state, {payload}) => {
+    setActiveChannel: (state, { payload }) => {
       state.activeChannel = { name: payload.name, channelId: payload.id };
     },
   },

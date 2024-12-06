@@ -16,7 +16,7 @@ const authorizationSlice = createSlice({
     },
     changeStatus: (state, { payload: status }) => {
       state.status = status;
-    }
+    },
   },
 });
 

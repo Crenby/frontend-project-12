@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import * as yup from 'yup';
 import { useState } from 'react';
@@ -12,7 +12,7 @@ const SignUp = () => {
 
   const validate = yup.object({
     confirmPassword: yup.string().required(t('required'))
-      .oneOf([yup.ref('userPassword')], t('signUpPage.confirmPassword'),),
+      .oneOf([yup.ref('userPassword')], t('signUpPage.confirmPassword')),
     userPassword: yup.string().required(t('required'))
       .min(6, t('signUpPage.minPasswordLenght')),
     userName: yup.string().required(t('required'))
@@ -22,29 +22,29 @@ const SignUp = () => {
 
   const formik = useFormik({
     initialValues: {
-      userName: "",
-      userPassword: "",
-      confirmPassword: "",
+      userName: '',
+      userPassword: '',
+      confirmPassword: '',
     },
 
     validationSchema: validate,
 
     onSubmit: (values) => {
       axios.post('/api/v1/signup', { username: values.userName, password: values.userPassword })
-        .then((response) => {
-          axios.post('/api/v1/login', { username: response.data.username, password: values.userPassword })
+        .then((resp) => {
+          axios.post('/api/v1/login', { username: resp.data.username, password: values.userPassword })
             .then((response) => {
               localStorage.clear();
               localStorage.setItem('userToken', response.data.token);
               localStorage.setItem('userName', response.data.username);
               navigate('/', { replace: false });
-            })
+            });
         })
         .catch((err) => {
           if (err.response.status === 409) {
             setFailedRegistration(t('signUpPage.existingUser'));
           }
-        })
+        });
     },
   });
 
@@ -88,7 +88,7 @@ const SignUp = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default SignUp;
