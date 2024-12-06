@@ -3,29 +3,22 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import * as yup from 'yup';
 import { useState } from 'react';
-import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 
 const SignUp = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const [failedRegistration, setFailedRegistration] = useState(false);
 
-  function validate(fields) {
-    const schema = yup.object({
-      confirmPassword: yup.string().required(t('required'))
-        .oneOf([yup.ref('userPassword')], t('signUpPage.confirmPassword'),),
-      userPassword: yup.string().required(t('required'))
-        .min(6, t('signUpPage.minPasswordLenght')),
-      userName: yup.string().required(t('required'))
-        .min(3, t('signUpPage.minUsernameLenght'))
-        .max(20, t('signUpPage.maxUsernameLenght')),
-    });
-    return schema.validate(fields);
-  }
-  
-  const [userNameError, setUserNameError] = useState(false);
-  const [userPassError, setUserPassError] = useState(false);
-  const [passConfirmError, setPassConfirmError] = useState(false);
+  const validate = yup.object({
+    confirmPassword: yup.string().required(t('required'))
+      .oneOf([yup.ref('userPassword')], t('signUpPage.confirmPassword'),),
+    userPassword: yup.string().required(t('required'))
+      .min(6, t('signUpPage.minPasswordLenght')),
+    userName: yup.string().required(t('required'))
+      .min(3, t('signUpPage.minUsernameLenght'))
+      .max(20, t('signUpPage.maxUsernameLenght')),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -34,50 +27,26 @@ const SignUp = () => {
       confirmPassword: "",
     },
 
-    onSubmit: (values) => {
-      setUserNameError(false);
-      setUserPassError(false);
-      setPassConfirmError(false);
+    validationSchema: validate,
 
-      validate({ userName: values.userName, userPassword: values.userPassword, confirmPassword: values.confirmPassword })
-        .then(() => {
-          axios.post('/api/v1/signup', { username: values.userName, password: values.userPassword })
+    onSubmit: (values) => {
+      axios.post('/api/v1/signup', { username: values.userName, password: values.userPassword })
+        .then((response) => {
+          axios.post('/api/v1/login', { username: response.data.username, password: values.userPassword })
             .then((response) => {
-              axios.post('/api/v1/login', { username: response.data.username, password: values.userPassword })
-                .then((response) => {
-                  localStorage.clear();
-                  localStorage.setItem('userToken', response.data.token);
-                  localStorage.setItem('userName', response.data.username);
-                  navigate('/', { replace: false });
-                })
-            })
-            .catch((err) => {
-              if (err.response.status === 409) {
-                setUserNameError(t('signUpPage.existingUser'));
-              }
+              localStorage.clear();
+              localStorage.setItem('userToken', response.data.token);
+              localStorage.setItem('userName', response.data.username);
+              navigate('/', { replace: false });
             })
         })
-        .catch((error) => {
-          switch (error.path) {
-            case 'userName':
-              setUserNameError(error.message);
-              break;
-            case 'userPassword':
-              setUserPassError(error.message);
-              break;
-            case 'confirmPassword':
-              setPassConfirmError(error.message);
-              break;
+        .catch((err) => {
+          if (err.response.status === 409) {
+            setFailedRegistration(t('signUpPage.existingUser'));
           }
         })
     },
   });
-
-  const inputClass = (err) => {
-    return cn("form-control", {
-      "is-invalid": err
-    })
-  }
 
   return (
     <>
@@ -97,19 +66,19 @@ const SignUp = () => {
                 <form className="w-50" onSubmit={formik.handleSubmit}>
                   <h1 className="text-center mb-4">{t('signUp')}</h1>
                   <div className="form-floating mb-3">
-                    <input placeholder={t('signUpPage.minUsernameLenght')} name="userName" autoComplete="userName" required="" id="username" className={inputClass(userNameError)} onChange={formik.handleChange} value={formik.values.userName} />
+                    <input placeholder={t('signUpPage.minUsernameLenght')} name="userName" autoComplete="userName" required="" id="username" className="form-control" onChange={formik.handleChange} value={formik.values.userName} />
                     <label className="form-label" htmlFor="userName">{t('signUpPage.username')}</label>
-                    {userNameError ? <div className="invalid-tooltip" style={{ display: 'block' }}>{userNameError}</div> : null}
+                    {formik.errors.userName ? <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.userName}</div> : null}
                   </div>
                   <div className="form-floating mb-3">
-                    <input placeholder={t('signUpPage.minPasswordLenght')} name="userPassword" aria-describedby="passwordHelpBlock" required="" autoComplete="new-password" type="password" id="password" className={inputClass(userPassError)} onChange={formik.handleChange} value={formik.values.userPassword} />
+                    <input placeholder={t('signUpPage.minPasswordLenght')} name="userPassword" aria-describedby="passwordHelpBlock" required="" autoComplete="new-password" type="password" id="password" className="form-control" onChange={formik.handleChange} value={formik.values.userPassword} />
                     <label className="form-label" htmlFor="userPassword">{t('password')}</label>
-                    {userPassError ? <div className="invalid-tooltip" style={{ display: 'block' }}>{userPassError}</div> : null}
+                    {formik.errors.userPassword ? <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.userPassword}</div> : null}
                   </div>
                   <div className="form-floating mb-4">
-                    <input placeholder={t('signUpPage.notConfirmPassword')} name="confirmPassword" required="" autoComplete="new-password" type="password" id="confirmPassword" className={inputClass(passConfirmError)} onChange={formik.handleChange} value={formik.values.confirmPassword} />
+                    <input placeholder={t('signUpPage.notConfirmPassword')} name="confirmPassword" required="" autoComplete="new-password" type="password" id="confirmPassword" className="form-control" onChange={formik.handleChange} value={formik.values.confirmPassword} />
                     <label className="form-label" htmlFor="confirmPassword">{t('signUpPage.repeatPassword')}</label>
-                    {passConfirmError ? <div className="invalid-tooltip" style={{ display: 'block' }}>{passConfirmError}</div> : null}
+                    {formik.errors.confirmPassword || failedRegistration ? <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.confirmPassword || failedRegistration}</div> : null}
                   </div>
                   <button type="submit" className="w-100 btn btn-outline-primary">{t('signUpPage.signUp')}</button>
                 </form>
