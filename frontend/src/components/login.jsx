@@ -15,8 +15,8 @@ const Login = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      password: "",
+      name: '',
+      password: '',
     },
 
     onSubmit: (values) => {
@@ -27,7 +27,7 @@ const Login = () => {
           localStorage.setItem('userToken', response.data.token);
           localStorage.setItem('userName', response.data.username);
           dispatch(changeStatus(true));
-          dispatch(authorization())
+          dispatch(authorization());
           navigate('/', { replace: false });
         })
         .catch(() => {
@@ -37,9 +37,9 @@ const Login = () => {
     },
   });
 
-  const inputClass = cn("form-control", {
-    "is-invalid": authorizationFailed
-  })
+  const inputClass = cn('form-control', {
+    'is-invalid': authorizationFailed,
+  });
 
   return (
     <>
@@ -55,10 +55,12 @@ const Login = () => {
 
               <div className="card-body row p-5">
                 <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                  <img src="..\src\assets\loginLogo.jfif" className="rounded-circle" alt={t('enter')}></img>
+                  <img src="..\src\assets\loginLogo.jfif" className="rounded-circle" alt={t('enter')}/>
                 </div>
                 <form className="col-12 col-md-6 mt-3 mt-md-0" onSubmit={formik.handleSubmit}>
-                  <h1 className="text-center mb-4"> {t('enter')} </h1>
+                  <h1 className="text-center mb-4"> 
+                    {t('enter')} 
+                  </h1>
 
                   <div className="form-floating mb-3">
                     <input
@@ -91,7 +93,9 @@ const Login = () => {
 
               <div className="card-footer p-4">
                 <div className="text-center">
-                  <span>{t('notAccount')} </span>
+                  <span>
+                    {t('notAccount')} 
+                  </span>
                   <a href="/signup">{t('signUp')}</a>
                 </div>
               </div>
@@ -100,7 +104,7 @@ const Login = () => {
         </div>
       </div>
     </>
-  )
+  );
 };
 
 export default Login;

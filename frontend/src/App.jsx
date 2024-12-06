@@ -5,33 +5,31 @@ import Login from './components/login.jsx';
 import Chat from './components/chat.jsx';
 import SignUp from './components/signup.jsx';
 
-const App = () => {
-  return (
-    <BrowserRouter>
-      <div className="d-flex flex-column h-100">
-        <Routes>
-          <Route path="*" element={<NotFound />} />
-          <Route path="login" element={<Login />} />
-          <Route path="/" element={<Chat />} />
-          <Route path="signup" element={<SignUp />} />
-        </Routes>
-      </div>
-      <div className="Toastify">
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-      </div>
-    </BrowserRouter>
-  );
-}
+const App = () => (
+  <BrowserRouter>
+    <div className="d-flex flex-column h-100">
+      <Routes>
+        <Route path="*" element={<NotFound />} />
+        <Route path="login" element={<Login />} />
+        <Route path="/" element={<Chat />} />
+        <Route path="signup" element={<SignUp />} />
+      </Routes>
+    </div>
+    <div className="Toastify">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </div>
+  </BrowserRouter>
+);
 
 export default App;

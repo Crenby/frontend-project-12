@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import leoProfanity from 'leo-profanity';
-import { getChannels, setActiveChannel } from '../slices/channelsSlice.js';
 import axios from 'axios';
 import cn from 'classnames';
 import { useFormik } from 'formik';
@@ -11,6 +10,7 @@ import * as yup from 'yup';
 import useOnClickOutside from 'use-onclickoutside';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { getChannels, setActiveChannel } from '../slices/channelsSlice.js';
 
 const Channels = () => {
   const { t } = useTranslation();
@@ -53,14 +53,14 @@ const Channels = () => {
       channelName: yup.string().required(t('required'))
         .min(3, t('min'))
         .max(20, t('max'))
-        .notOneOf(channels.map(channel => channel.name), t('duplicate'))
+        .notOneOf(channels.map((channel) => channel.name), t('duplicate')),
     });
     return schema.validate(fields);
   }
 
   useEffect(() => {
     if (!localStorage.getItem('userToken')) {
-      navigate('/login', { replace: false })
+      navigate('/login', { replace: false });
     } else {
       axios.get('/api/v1/channels', {
         headers: {
@@ -72,9 +72,13 @@ const Channels = () => {
     }
   }, []);
 
+  const closeModalAddChannel = () => {
+    setModalAddChannel(false);
+  };
+
   const formik = useFormik({
     initialValues: {
-      channelName: "",
+      channelName: '',
     },
 
     onSubmit: (values) => {
@@ -112,10 +116,6 @@ const Channels = () => {
 
   const openModalAddChannel = () => {
     setModalAddChannel(true);
-  };
-
-  const closeModalAddChannel = () => {
-    setModalAddChannel(false);
   };
 
   const inputClass = cn("form-control", "mb-2", {
