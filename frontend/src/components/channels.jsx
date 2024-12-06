@@ -273,7 +273,7 @@ const Channels = () => {
 
       <ul className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
         {channels.map((channel, i) => {
-          const channelActiveClass = cn("w-100", "rounded-0", "text-start", "btn", {
+          const channelActiveClass = cn("w-100", "rounded-0", "text-start", "text-truncate", "btn", {
             "btn-secondary": channel.name === activeChannel.name,
           })
 
