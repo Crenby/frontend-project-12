@@ -66,12 +66,12 @@ const SignUp = () => {
                 <form className="w-50" onSubmit={formik.handleSubmit}>
                   <h1 className="text-center mb-4">{t('signUp')}</h1>
                   <div className="form-floating mb-3">
-                    <input placeholder={t('signUpPage.minUsernameLenght')} name="userName" autoComplete="userName" required="" id="username" className="form-control" onChange={formik.handleChange} value={formik.values.userName} />
+                    <input placeholder={t('signUpPage.minUsernameLenght')} name="userName" autoComplete="userName" required="" id="userName" className="form-control" onChange={formik.handleChange} value={formik.values.userName} />
                     <label className="form-label" htmlFor="userName">{t('signUpPage.username')}</label>
                     {formik.errors.userName ? <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.userName}</div> : null}
                   </div>
                   <div className="form-floating mb-3">
-                    <input placeholder={t('signUpPage.minPasswordLenght')} name="userPassword" aria-describedby="passwordHelpBlock" required="" autoComplete="new-password" type="password" id="password" className="form-control" onChange={formik.handleChange} value={formik.values.userPassword} />
+                    <input placeholder={t('signUpPage.minPasswordLenght')} name="userPassword" aria-describedby="passwordHelpBlock" required="" autoComplete="new-password" type="password" id="userPassword" className="form-control" onChange={formik.handleChange} value={formik.values.userPassword} />
                     <label className="form-label" htmlFor="userPassword">{t('password')}</label>
                     {formik.errors.userPassword ? <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.userPassword}</div> : null}
                   </div>
