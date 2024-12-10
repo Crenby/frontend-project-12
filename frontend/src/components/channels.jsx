@@ -291,30 +291,33 @@ const Channels = () => {
           };
 
           return (
-            <li key={i} className="nav-item w-100">
+            <li key={i + 1} className="nav-item w-100">
               <div ref={ref} role="group" className="d-flex dropdown btn-group">
-                <button aria-label={channel.name} 
+                <button
+                  aria-label={channel.name}
+                  type="button"
                   onClick={() => dispatch(setActiveChannel(channel))} className={channelActiveClass}>
                   <span className="me-1">#</span>
                   {channel.name}
                 </button>
-                {channel.removable ?
-                  <>
+                {channel.removable
+                  ?
+                  (<>
                     <button onClick={() => openActiveBtn(i)} id={i} type="button" aria-expanded="false" className={btnActiveClass}>
                       <span className="visually-hidden">{t('channelControl')}</span>
                     </button>
                     <div id={i} aria-labelledby="" className={actionMenuClass} data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom-end" style={{ position: 'absolute', inset: '0px 0px auto auto', transform: 'translate(0px, 40px)' }}>
-                      <a onClick={() => openModalRemoveChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" role="button" tabIndex="0" href="#">{t('remove')}</a>
-                      <a onClick={() => openModalRenameChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" role="button" tabIndex="0" href="#">{t('rename')}</a>
+                      <button onClick={() => openModalRemoveChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" role="button" tabIndex="0" href="#">{t('remove')}</button>
+                      <button onClick={() => openModalRenameChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" role="button" tabIndex="0" href="#">{t('rename')}</button>
                     </div>
-                  </> : null}
+                  </>) : null}
               </div>
             </li>
-          )
+          );
         })}
       </ul>
     </div>
-  )
-}
+  );
+};
 
 export default Channels;
