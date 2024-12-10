@@ -74,7 +74,7 @@ const ModalAddChannel = () => {
         </div>
       </div>
     </>
-  )
+  );
 };
 
 export default ModalAddChannel;

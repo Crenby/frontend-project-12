@@ -10,14 +10,12 @@ const authorizationSlice = createSlice({
   name: 'authorization',
   initialState,
   reducers: {
-    authorization: (state) => {
-      return {
+    authorization: (state) => ({
         ...state,
-        userName: localStorage.getItem('userName'), 
+        userName: localStorage.getItem('userName'),
         userToken: localStorage.getItem('userToken'),
-      }
-    },
-    changeStatus: (state, { payload: status }) => ({status}),
+    }),
+    changeStatus: (state, { payload: status }) => ({ status }),
   },
 });
 

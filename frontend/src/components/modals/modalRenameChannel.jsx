@@ -70,7 +70,7 @@ const ModalRenameChannel = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default ModalRenameChannel;

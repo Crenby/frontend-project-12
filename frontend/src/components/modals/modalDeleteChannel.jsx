@@ -23,7 +23,7 @@ const ModalDeleteChannel = () => {
       .catch(() => {
         toast.error(t('toast.dataLoadingError'));
       });
-      dispatch(setDeleteModalStatus({ status: false }));
+    dispatch(setDeleteModalStatus({ status: false }));
   };
 
   return (
@@ -48,6 +48,6 @@ const ModalDeleteChannel = () => {
       </div>
     </>
   );
-}
+};
 
 export default ModalDeleteChannel;

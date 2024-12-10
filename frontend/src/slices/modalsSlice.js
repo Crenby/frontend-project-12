@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   addModal: false,
   renameModal: false,
-  deleteModal: false
+  deleteModal: false,
 };
 
 const modalsSlice = createSlice({
@@ -16,6 +16,10 @@ const modalsSlice = createSlice({
   },
 });
 
-export const { setAddModalStatus, setRenameModalStatus, setDeleteModalStatus } = modalsSlice.actions;
+export const { 
+  setAddModalStatus,
+  setRenameModalStatus,
+  setDeleteModalStatus,
+} = modalsSlice.actions;
 
 export default modalsSlice.reducer;
