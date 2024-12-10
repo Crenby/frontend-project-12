@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import axios from 'axios';
-import { getMessages, addMessages } from '../slices/messagesSlice.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { io } from 'socket.io-client';
-import store from '../slices/index.js';
 import { useTranslation } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
+import { getMessages, addMessages } from '../slices/messagesSlice.js';
+import store from '../slices/index.js';
 
 const socket = io();
 const { dispatch } = store;
@@ -23,13 +23,13 @@ const Messages = () => {
 
   const formik = useFormik({
     initialValues: {
-      messageText: "",
+      messageText: '',
     },
 
     onSubmit: (values) => {
       const cleanedMessage = leoProfanity.clean(values.messageText);
       const newMessage = { body: cleanedMessage, channelId: activeChannel.channelId, username: localStorage.getItem('userName') };
-      
+
       axios.post('/api/v1/messages', newMessage, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -56,24 +56,23 @@ const Messages = () => {
       <div className="col p-0 h-100">
         <div className="d-flex flex-column h-100">
           <div className="bg-light mb-4 p-3 shadow-sm small">
-            <p className="m-0"><b># {activeChannel.name}</b></p>
+            <p className="m-0"><b>
+              #
+              {activeChannel.name}</b>
+            </p>
             <span className="text-muted">
               {t('messages', { count: messages.filter((m) => m.channelId === activeChannel.channelId).length })}
             </span>
           </div>
 
           <div className="chat-messages overflow-auto px-5 ">
-            {messages.filter((message) => {
-              return message.channelId === activeChannel.channelId
-            })
-              .map((message, i) => {
-                return (
-                  <div key={i} className="text-break mb-2">
-                    <b>{message.username}</b>
-                    : {message.body}
-                  </div>
-                )
-              })
+            {messages.filter((message) => message.channelId === activeChannel.channelId)
+              .map((message, i) => (
+                <div key={i} className="text-break mb-2">
+                  <b>{message.username}</b>
+                  : {message.body}
+                </div>
+              ))
             }
           </div>
 

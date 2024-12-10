@@ -12,10 +12,10 @@ const NotFound = () => {
       </nav>
 
       <div className="text-center">
-        <img alt={t('notFound')} className="img-fluid h-25" src="..\src\assets\notfound.svg"/>
+        <img alt={t('notFound')} className="img-fluid h-25" src="..\src\assets\notfound.svg" />
         <h1 className="h4 text-muted">{t('notFound')}</h1>
-        <p className="text-muted"> 
-          {t('youCanGo')} 
+        <p className="text-muted">
+          {t('youCanGo')}
           <a href="/">{t('toHomePage')}</a>
         </p>
       </div>

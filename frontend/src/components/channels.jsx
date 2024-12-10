@@ -99,13 +99,13 @@ const Channels = () => {
         .catch((error) => {
           setAddChannelError(error.message);
           toast.error(t('toast.dataLoadingError'));
-        })
+        });
     },
   });
 
   const formikRename = useFormik({
     initialValues: {
-      newChannelName: "",
+      newChannelName: '',
     },
 
     onSubmit: (values) => {
@@ -118,17 +118,17 @@ const Channels = () => {
     setModalAddChannel(true);
   };
 
-  const inputClass = cn("form-control", "mb-2", {
-    "is-invalid": addChannelError
-  })
+  const inputClass = cn('form-control', 'mb-2', {
+    'is-invalid': addChannelError,
+  });
 
   const openModalRemoveChannel = (id) => {
     setModalRemoveChannel(id);
-  }
+  };
 
   const closeModalRemoveChannel = () => {
     setModalRemoveChannel(false);
-  }
+  };
 
   const removeChannel = () => {
     setModalRemoveChannel(false);
@@ -138,21 +138,21 @@ const Channels = () => {
       },
     })
       .then(() => {
-        dispatch(setActiveChannel({ name: 'general', channelId: "1", }));
+        dispatch(setActiveChannel({ name: 'general', channelId: '1' }));
         toast.warn(t('toast.removeChannel'));
       })
       .catch(() => {
         toast.error(t('toast.dataLoadingError'));
       });
-  }
+  };
 
   const openModalRenameChannel = (id) => {
     setModalRenameChannel(id);
-  }
+  };
 
   const closeModalRenameChannel = () => {
     setModalRenameChannel(false);
-  }
+  };
 
   const renameChannel = (newName) => {
     setModalRenameChannel(false);
@@ -166,17 +166,17 @@ const Channels = () => {
       dispatch(setActiveChannel(response.data));
       toast.info(t('toast.renamedChannel'));
     });
-  }
+  };
 
   const ModalAddChannel = (
     <>
-      <div className="fade modal-backdrop show"></div>
+      <div className="fade modal-backdrop show" />
       <div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{ paddingRight: '17px', display: 'block' }}>
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
               <div className="modal-title h4">{t('modals.addChannel')}</div>
-              <button onClick={closeModalAddChannel} type="button" aria-label="Close" data-bs-dismiss="modal" className="btn btn-close"></button>
+              <button onClick={closeModalAddChannel} type="button" aria-label="Close" data-bs-dismiss="modal" className="btn btn-close" />
             </div>
             <div className="modal-body">
               <form className="" onSubmit={formik.handleSubmit}>
@@ -197,17 +197,17 @@ const Channels = () => {
         </div>
       </div>
     </>
-  )
+  );
 
   const ModalRemoveChannel = (
     <>
-      <div className="fade modal-backdrop show"></div>
+      <div className="fade modal-backdrop show" />
       <div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{ paddingRight: '17px', display: 'block' }}>
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
               <div className="modal-title h4">{t('modals.removeChannel')}</div>
-              <button onClick={closeModalRemoveChannel} type="button" aria-label="Close" data-bs-dismiss="modal" className="btn btn-close"></button>
+              <button onClick={closeModalRemoveChannel} type="button" aria-label="Close" data-bs-dismiss="modal" className="btn btn-close" />
             </div>
             <div className="modal-body">
               <p className="lead">{t('modals.questionInModal')}</p>
@@ -220,24 +220,24 @@ const Channels = () => {
         </div>
       </div>
     </>
-  )
+  );
 
   const ModalRenameChannel = (
     <>
-      <div className="fade modal-backdrop show"></div>
+      <div className="fade modal-backdrop show" />
       <div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{ paddingRight: '17px', display: 'block' }}>
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
               <div className="modal-title h4">{t('modals.renameChannel')}</div>
-              <button onClick={closeModalRenameChannel} type="button" aria-label="Close" data-bs-dismiss="modal" className="btn btn-close"></button>
+              <button onClick={closeModalRenameChannel} type="button" aria-label="Close" data-bs-dismiss="modal" className="btn btn-close" />
             </div>
             <div className="modal-body">
               <form className="" onSubmit={formikRename.handleSubmit}>
                 <div>
                   <input name="newChannelName" id="newChannelName" className="mb-2 form-control" onChange={formikRename.handleChange} value={formikRename.values.newChannelName} />
                   <label className="visually-hidden" htmlFor="newChannelName">{t('modals.nameChannel')}</label>
-                  <div className="invalid-feedback"></div>
+                  <div className="invalid-feedback" />
                   <div className="d-flex justify-content-end">
                     <button onClick={closeModalRenameChannel} type="button" className="me-2 btn btn-secondary">{t('modals.cancelButton')}</button>
                     <button type="submit" className="btn btn-primary">{t('send')}</button>
@@ -249,19 +249,22 @@ const Channels = () => {
         </div>
       </div>
     </>
-  )
+  );
 
-  const ref = useRef(null)
+  const ref = useRef(null);
   useOnClickOutside(ref, () => {
     if (actionMenu) setTimeout(() => setActionMenu(false), 100);
-  })
+  });
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>Каналы</b>
-        <button onClick={openModalAddChannel} className="p-0 text-primary btn btn-group-vertical">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor"><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"></path><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path></svg>
+        <button onClick={openModalAddChannel} type="button" className="p-0 text-primary btn btn-group-vertical">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
+            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+          </svg>
           <span className="visually-hidden">+</span>
         </button>
         {modalAddChannel ? ModalAddChannel : null}
@@ -271,26 +274,27 @@ const Channels = () => {
 
       <ul className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
         {channels.map((channel, i) => {
-          const channelActiveClass = cn("w-100", "rounded-0", "text-start", "text-truncate", "btn", {
-            "btn-secondary": channel.name === activeChannel.name,
-          })
+          const channelActiveClass = cn('w-100', 'rounded-0', 'text-start', 'text-truncate', 'btn', {
+            'btn-secondary': channel.name === activeChannel.name,
+          });
 
           const btnActiveClass = cn('flex-grow-0', 'dropdown-toggle', 'dropdown-toggle-split', 'btn', {
-            "btn-secondary": channel.name === activeChannel.name,
-          })
+            'btn-secondary': channel.name === activeChannel.name,
+          });
 
           const actionMenuClass = cn('dropdown-menu', {
             show: actionMenu === i,
-          })
+          });
 
-          const openActiveBtn = (i) => {
-            setActionMenu(i);
+          const openActiveBtn = (index) => {
+            setActionMenu(index);
           };
 
           return (
             <li key={i} className="nav-item w-100">
               <div ref={ref} role="group" className="d-flex dropdown btn-group">
-                <button aria-label={channel.name} onClick={() => dispatch(setActiveChannel(channel))} className={channelActiveClass}>
+                <button aria-label={channel.name} 
+                  onClick={() => dispatch(setActiveChannel(channel))} className={channelActiveClass}>
                   <span className="me-1">#</span>
                   {channel.name}
                 </button>
