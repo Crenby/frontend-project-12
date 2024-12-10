@@ -10,7 +10,7 @@ import * as yup from 'yup';
 import useOnClickOutside from 'use-onclickoutside';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { uniqueId } from "lodash";
+import { uniqueId } from 'lodash';
 import { getChannels, setActiveChannel } from '../slices/channelsSlice.js';
 
 const Channels = () => {
@@ -304,16 +304,16 @@ const Channels = () => {
                   {channel.name}
                 </button>
                 {channel.removable ? (
-                    <>
-                      <button onClick={() => openActiveBtn(i)} id={i} type="button" aria-expanded="false" className={btnActiveClass}>
-                        <span className="visually-hidden">{t('channelControl')}</span>
-                      </button>
-                      <div id={i} aria-labelledby="" className={actionMenuClass} data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom-end" style={{ position: 'absolute', inset: '0px 0px auto auto', transform: 'translate(0px, 40px)' }}>
-                        <button onClick={() => openModalRemoveChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" type="button" tabIndex="0" href="#">{t('remove')}</button>
-                        <button onClick={() => openModalRenameChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" type="button" tabIndex="0" href="#">{t('rename')}</button>
-                      </div>
-                    </>
-                  ) : null}
+                  <>
+                    <button onClick={() => openActiveBtn(i)} id={i} type="button" aria-expanded="false" className={btnActiveClass}>
+                      <span className="visually-hidden">{t('channelControl')}</span>
+                    </button>
+                    <div id={i} aria-labelledby="" className={actionMenuClass} data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom-end" style={{ position: 'absolute', inset: '0px 0px auto auto', transform: 'translate(0px, 40px)' }}>
+                      <button onClick={() => openModalRemoveChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" type="button" tabIndex="0" href="#">{t('remove')}</button>
+                      <button onClick={() => openModalRenameChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" type="button" tabIndex="0" href="#">{t('rename')}</button>
+                    </div>
+                  </>
+                ) : null}
               </div>
             </li>
           );

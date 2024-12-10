@@ -16,8 +16,8 @@ const SignUp = () => {
     userPassword: yup.string().required(t('required'))
       .min(6, t('signUpPage.minPasswordLenght')),
     userName: yup.string().required(t('required'))
-      .min(3, t('signUpPage.minUsernameLenght'))
-      .max(20, t('signUpPage.maxUsernameLenght')),
+      .min(3, t('signUpPage.usernameLenght', { min: 3, max: 20 }))
+      .max(20, t('signUpPage.usernameLenght', { min: 3, max: 20 })),
   });
 
   const formik = useFormik({

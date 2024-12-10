@@ -46,8 +46,7 @@ const ruLocales = {
     youCanGo: 'Но вы можете перейти',
     toHomePage: 'на главную страницу',
     signUpPage: {
-      minUsernameLenght: 'От 3 до 20 символов',
-      maxUsernameLenght: 'От 3 до 20 символов',
+      usernameLenght: 'От {{min}} до {{max}} символов',
       minPasswordLenght: 'Не менее 6 символов',
       confirmPassword: 'пароли должны совпадать',
       existingUser: 'такой пользователь уже существует',
