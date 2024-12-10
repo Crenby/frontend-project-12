@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
+import { uniqueId } from "lodash";
 import { getMessages } from '../slices/messagesSlice.js';
 
 const Messages = () => {
@@ -51,7 +52,7 @@ const Messages = () => {
     }).then((response) => {
       dispatch(getMessages(response.data));
     });
-  }, [localStorage.getItem('userToken')]);
+  }, []);
 
   return (
     <div className="col p-0 h-100">
@@ -71,7 +72,7 @@ const Messages = () => {
         <div className="chat-messages overflow-auto px-5 ">
           {messages.filter((message) => message.channelId === activeChannel.channelId)
             .map((message, i) => (
-              <div key={i + 1} className="text-break mb-2">
+              <div key={uniqueId()} className="text-break mb-2">
                 <b>{message.username}</b>
                 :
                 {message.body}

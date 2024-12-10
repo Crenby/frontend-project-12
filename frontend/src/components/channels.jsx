@@ -10,6 +10,7 @@ import * as yup from 'yup';
 import useOnClickOutside from 'use-onclickoutside';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { uniqueId } from "lodash";
 import { getChannels, setActiveChannel } from '../slices/channelsSlice.js';
 
 const Channels = () => {
@@ -72,8 +73,30 @@ const Channels = () => {
     }
   }, []);
 
+  const renameChannel = (newName) => {
+    setModalRenameChannel(false);
+    const cleanedName = leoProfanity.clean(newName);
+    const editedChannel = { name: cleanedName };
+    axios.patch(`/api/v1/channels/${modalRenameChannel}`, editedChannel, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+      },
+    }).then((response) => {
+      dispatch(setActiveChannel(response.data));
+      toast.info(t('toast.renamedChannel'));
+    });
+  };
+
   const closeModalAddChannel = () => {
     setModalAddChannel(false);
+  };
+
+  const openModalRenameChannel = (id) => {
+    setModalRenameChannel(id);
+  };
+
+  const closeModalRenameChannel = () => {
+    setModalRenameChannel(false);
   };
 
   const formik = useFormik({
@@ -144,28 +167,6 @@ const Channels = () => {
       .catch(() => {
         toast.error(t('toast.dataLoadingError'));
       });
-  };
-
-  const openModalRenameChannel = (id) => {
-    setModalRenameChannel(id);
-  };
-
-  const closeModalRenameChannel = () => {
-    setModalRenameChannel(false);
-  };
-
-  const renameChannel = (newName) => {
-    setModalRenameChannel(false);
-    const cleanedName = leoProfanity.clean(newName);
-    const editedChannel = { name: cleanedName };
-    axios.patch(`/api/v1/channels/${modalRenameChannel}`, editedChannel, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-      },
-    }).then((response) => {
-      dispatch(setActiveChannel(response.data));
-      toast.info(t('toast.renamedChannel'));
-    });
   };
 
   const ModalAddChannel = (
@@ -291,26 +292,30 @@ const Channels = () => {
           };
 
           return (
-            <li key={i + 1} className="nav-item w-100">
+            <li key={uniqueId()} className="nav-item w-100">
               <div ref={ref} role="group" className="d-flex dropdown btn-group">
                 <button
                   aria-label={channel.name}
                   type="button"
-                  onClick={() => dispatch(setActiveChannel(channel))} className={channelActiveClass}>
+                  onClick={() => dispatch(setActiveChannel(channel))} 
+                  className={channelActiveClass}
+                >
                   <span className="me-1">#</span>
                   {channel.name}
                 </button>
                 {channel.removable
                   ?
-                  (<>
-                    <button onClick={() => openActiveBtn(i)} id={i} type="button" aria-expanded="false" className={btnActiveClass}>
-                      <span className="visually-hidden">{t('channelControl')}</span>
-                    </button>
-                    <div id={i} aria-labelledby="" className={actionMenuClass} data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom-end" style={{ position: 'absolute', inset: '0px 0px auto auto', transform: 'translate(0px, 40px)' }}>
-                      <button onClick={() => openModalRemoveChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" role="button" tabIndex="0" href="#">{t('remove')}</button>
-                      <button onClick={() => openModalRenameChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" role="button" tabIndex="0" href="#">{t('rename')}</button>
-                    </div>
-                  </>) : null}
+                  (
+                    <>
+                      <button onClick={() => openActiveBtn(i)} id={i} type="button" aria-expanded="false" className={btnActiveClass}>
+                        <span className="visually-hidden">{t('channelControl')}</span>
+                      </button>
+                      <div id={i} aria-labelledby="" className={actionMenuClass} data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom-end" style={{ position: 'absolute', inset: '0px 0px auto auto', transform: 'translate(0px, 40px)' }}>
+                        <button onClick={() => openModalRemoveChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" type="button" tabIndex="0" href="#">{t('remove')}</button>
+                        <button onClick={() => openModalRenameChannel(channel.id)} data-rr-ui-dropdown-item="" className="dropdown-item" type="button" tabIndex="0" href="#">{t('rename')}</button>
+                      </div>
+                    </>
+                  ) : null}
               </div>
             </li>
           );
