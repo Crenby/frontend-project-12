@@ -297,15 +297,13 @@ const Channels = () => {
                 <button
                   aria-label={channel.name}
                   type="button"
-                  onClick={() => dispatch(setActiveChannel(channel))} 
+                  onClick={() => dispatch(setActiveChannel(channel))}
                   className={channelActiveClass}
                 >
                   <span className="me-1">#</span>
                   {channel.name}
                 </button>
-                {channel.removable
-                  ?
-                  (
+                {channel.removable ? (
                     <>
                       <button onClick={() => openActiveBtn(i)} id={i} type="button" aria-expanded="false" className={btnActiveClass}>
                         <span className="visually-hidden">{t('channelControl')}</span>
