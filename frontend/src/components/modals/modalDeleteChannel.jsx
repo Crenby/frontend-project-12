@@ -1,9 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { setActiveChannel } from '../../slices/channelsSlice.js';
 import { setDeleteModalStatus } from '../../slices/modalsSlice.js';
+import chatApi from '../../chatApi.js';
 
 const ModalDeleteChannel = () => {
   const { t } = useTranslation();
@@ -12,11 +12,7 @@ const ModalDeleteChannel = () => {
   const token = useSelector((state) => state.authorization.userToken);
 
   const removeChannel = () => {
-    axios.delete(`/api/v1/channels/${deleteModalStatus}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    chatApi.removeChannel(token, deleteModalStatus)
       .then(() => {
         dispatch(setActiveChannel({ name: 'general', channelId: '1' }));
         toast.warn(t('toast.removeChannel'));

@@ -1,9 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
 import cn from 'classnames';
-import { io } from 'socket.io-client';
 import useOnClickOutside from 'use-onclickoutside';
 import { useTranslation } from 'react-i18next';
 import { uniqueId } from 'lodash';
@@ -12,6 +10,7 @@ import ModalAddChannel from './modals/modalAddChannel.jsx';
 import { setAddModalStatus, setRenameModalStatus, setDeleteModalStatus } from '../slices/modalsSlice.js';
 import ModalRenameChannel from './modals/modalRenameChannel.jsx';
 import ModalDeleteChannel from './modals/modalDeleteChannel.jsx';
+import chatApi from '../chatApi.js';
 
 const Channels = () => {
   const { t } = useTranslation();
@@ -25,41 +24,22 @@ const Channels = () => {
   const deleteModalStatus = useSelector((state) => state.modals.deleteModal);
   const token = useSelector((state) => state.authorization.userToken);
 
-  const socket = io();
-
   function upDataChannels() {
-    axios.get('/api/v1/channels', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((response) => {
-      dispatch(getChannels(response.data));
-    });
+    chatApi.getChannels(token)
+      .then((response) => {
+        dispatch(getChannels(response.data));
+      });
   }
 
-  socket.on('newChannel', () => {
-    upDataChannels();
-  });
-
-  socket.on('removeChannel', () => {
-    upDataChannels();
-  });
-
-  socket.on('renameChannel', () => {
-    upDataChannels();
-  });
+  chatApi.socketNewChannel(upDataChannels);
+  chatApi.socketRemoveChannel(upDataChannels);
+  chatApi.socketRenameChannel(upDataChannels);
 
   useEffect(() => {
     if (!token) {
       navigate('/login', { replace: false });
     } else {
-      axios.get('/api/v1/channels', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }).then((response) => {
-        dispatch(getChannels(response.data));
-      });
+      upDataChannels();
     }
   }, [dispatch, navigate, token]);
 

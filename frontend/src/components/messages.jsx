@@ -1,30 +1,23 @@
 import { useEffect } from 'react';
-import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
-import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
 import { uniqueId } from 'lodash';
 import { getMessages } from '../slices/messagesSlice.js';
+import chatApi from '../chatApi.js';
 
 const Messages = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const messages = useSelector((state) => state.messages.messages);
   const activeChannel = useSelector((state) => state.channels.activeChannel);
-  const socket = io();
   const token = useSelector((state) => state.authorization.userToken);
 
-  socket.on('newMessage', () => {
-    axios.get('/api/v1/messages', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((response) => {
+  chatApi.socketNewMessage(chatApi.getMessages(token)
+    .then((response) => {
       dispatch(getMessages(response.data));
-    });
-  });
+    }));
 
   const formik = useFormik({
     initialValues: {
@@ -35,24 +28,18 @@ const Messages = () => {
       const cleanedMessage = leoProfanity.clean(values.messageText);
       const newMessage = { body: cleanedMessage, channelId: activeChannel.channelId, username: localStorage.getItem('userName') };
 
-      axios.post('/api/v1/messages', newMessage, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }).then(() => {
-        formik.resetForm();
-      });
+      chatApi.addMessage(newMessage, token)
+        .then(() => {
+          formik.resetForm();
+        });
     },
   });
 
   useEffect(() => {
-    axios.get('/api/v1/messages', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((response) => {
-      dispatch(getMessages(response.data));
-    });
+    chatApi.getMessages(token)
+      .then((response) => {
+        dispatch(getMessages(response.data));
+      });
   }, [dispatch, token]);
 
   return (

@@ -1,11 +1,11 @@
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { authorization } from '../../slices/authorizationSlice.js';
+import chatApi from '../../chatApi.js';
 
 const LoginForm = () => {
   const { t } = useTranslation();
@@ -20,7 +20,7 @@ const LoginForm = () => {
     },
 
     onSubmit: (values) => {
-      axios.post('/api/v1/login', { username: values.name, password: values.password })
+      chatApi.login(values.name, values.password)
         .then((response) => {
           setAuthorizationFailed(false);
           localStorage.clear();

@@ -1,12 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
 import leoProfanity from 'leo-profanity';
-import axios from 'axios';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { setRenameModalStatus } from '../../slices/modalsSlice.js';
 import { setActiveChannel } from '../../slices/channelsSlice.js';
+import chatApi from '../../chatApi.js';
 
 const ModalRenameChannel = () => {
   const { t } = useTranslation();
@@ -32,15 +32,12 @@ const ModalRenameChannel = () => {
     onSubmit: (values) => {
       const cleanedName = leoProfanity.clean(values.newChannelName);
       const editedChannel = { name: cleanedName };
-      axios.patch(`/api/v1/channels/${renameModalStatus}`, editedChannel, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }).then((response) => {
-        dispatch(setActiveChannel(response.data));
-        toast.info(t('toast.renamedChannel'));
-        dispatch(setRenameModalStatus({ status: false }));
-      });
+      chatApi.editChannel(editedChannel, token, renameModalStatus)
+        .then((response) => {
+          dispatch(setActiveChannel(response.data));
+          toast.info(t('toast.renamedChannel'));
+          dispatch(setRenameModalStatus({ status: false }));
+        });
     },
   });
 

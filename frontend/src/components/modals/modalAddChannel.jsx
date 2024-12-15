@@ -1,6 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
 import leoProfanity from 'leo-profanity';
-import axios from 'axios';
 import cn from 'classnames';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -8,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { setAddModalStatus } from '../../slices/modalsSlice.js';
 import { setActiveChannel } from '../../slices/channelsSlice.js';
+import chatApi from '../../chatApi.js';
 
 const ModalAddChannel = () => {
   const { t } = useTranslation();
@@ -32,14 +32,11 @@ const ModalAddChannel = () => {
     onSubmit: (values) => {
       const cleanedName = leoProfanity.clean(values.channelName);
       const newChannel = { name: cleanedName };
-      axios.post('/api/v1/channels', newChannel, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }).then((response) => {
-        dispatch(setActiveChannel(response.data));
-        toast.success(t('toast.createChannel'));
-      });
+      chatApi.addChannel(newChannel, token)
+        .then((response) => {
+          dispatch(setActiveChannel(response.data));
+          toast.success(t('toast.createChannel'));
+        });
       dispatch(setAddModalStatus({ status: false }));
     },
   });

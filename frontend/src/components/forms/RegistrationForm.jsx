@@ -1,11 +1,11 @@
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
 import * as yup from 'yup';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { authorization } from '../../slices/authorizationSlice.js';
+import chatApi from '../../chatApi.js';
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
@@ -33,9 +33,9 @@ const RegistrationForm = () => {
     validationSchema: validate,
 
     onSubmit: (values) => {
-      axios.post('/api/v1/signup', { username: values.userName, password: values.userPassword })
+      chatApi.signup(values.userName, values.userPassword)
         .then((resp) => {
-          axios.post('/api/v1/login', { username: resp.data.username, password: values.userPassword })
+          chatApi.login(resp.data.username, values.userPassword)
             .then((response) => {
               localStorage.clear();
               localStorage.setItem('userToken', response.data.token);
