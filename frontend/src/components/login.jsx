@@ -4,6 +4,7 @@ import { useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { authorization } from '../slices/authorizationSlice.js';
 import LoginForm from './forms/LoginForm.jsx';
+import AvatarImage from '../assets/loginLogo.jfif';
 
 const Login = () => {
   const { t } = useTranslation();
@@ -31,7 +32,7 @@ const Login = () => {
 
               <div className="card-body row p-5">
                 <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                  <img src="..\src\assets\loginLogo.jfif" className="rounded-circle" alt={t('enter')} />
+                  <img src={AvatarImage} className="rounded-circle" alt={t('enter')} />
                 </div>
                 <LoginForm />
               </div>

@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import RegistrationForm from './forms/RegistrationForm.jsx';
+import AvatarSignup from '../assets/avatar_signup.jpg';
 
 const SignUp = () => {
   const { t } = useTranslation();
@@ -17,7 +18,7 @@ const SignUp = () => {
             <div className="card shadow-sm">
               <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
                 <div>
-                  <img src="..\src\assets\avatar_signup.jpg" className="rounded-circle" alt={t('signUp')} />
+                  <img src={AvatarSignup} className="rounded-circle" alt={t('signUp')} />
                 </div>
                 <RegistrationForm />
               </div>

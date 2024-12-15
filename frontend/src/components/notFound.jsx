@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import ImageNotFound from '../assets/notfound.svg';
 
 const NotFound = () => {
   const { t } = useTranslation();
@@ -12,7 +13,7 @@ const NotFound = () => {
       </nav>
 
       <div className="text-center">
-        <img alt={t('notFound')} className="img-fluid h-25" src="..\src\assets\notfound.svg" />
+        <img alt={t('notFound')} className="img-fluid h-25" src={ImageNotFound} />
         <h1 className="h4 text-muted">{t('notFound')}</h1>
         <p className="text-muted">
           {t('youCanGo')}
