@@ -13,6 +13,7 @@ const ModalRenameChannel = () => {
   const dispatch = useDispatch();
   const renameModalStatus = useSelector((state) => state.modals.renameModal);
   const channels = useSelector((state) => state.channels.channels);
+  const token = useSelector((state) => state.authorization.userToken);
 
   const validate = yup.object().shape({
     newChannelName: yup.string().required(t('required'))
@@ -33,7 +34,7 @@ const ModalRenameChannel = () => {
       const editedChannel = { name: cleanedName };
       axios.patch(`/api/v1/channels/${renameModalStatus}`, editedChannel, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          Authorization: `Bearer ${token}`,
         },
       }).then((response) => {
         dispatch(setActiveChannel(response.data));

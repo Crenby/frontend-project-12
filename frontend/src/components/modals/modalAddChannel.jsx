@@ -13,6 +13,7 @@ const ModalAddChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const channels = useSelector((state) => state.channels.channels);
+  const token = useSelector((state) => state.authorization.userToken);
 
   const validate = yup.object().shape({
     channelName: yup.string().required(t('required'))
@@ -33,7 +34,7 @@ const ModalAddChannel = () => {
       const newChannel = { name: cleanedName };
       axios.post('/api/v1/channels', newChannel, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          Authorization: `Bearer ${token}`,
         },
       }).then((response) => {
         dispatch(setActiveChannel(response.data));

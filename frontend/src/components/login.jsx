@@ -2,16 +2,23 @@ import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useLayoutEffect } from 'react';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { authorization, changeStatus } from '../slices/authorizationSlice.js';
+import { authorization } from '../slices/authorizationSlice.js';
 
 const Login = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [authorizationFailed, setAuthorizationFailed] = useState(false);
+
+  useLayoutEffect(() => {
+    if(localStorage.getItem('userToken')) {
+      dispatch(authorization({name: localStorage.getItem('userName'), token: localStorage.getItem('userToken')}));
+      navigate('/', { replace: false });
+    }
+  }, [dispatch]);
 
   const formik = useFormik({
     initialValues: {
@@ -26,8 +33,7 @@ const Login = () => {
           localStorage.clear();
           localStorage.setItem('userToken', response.data.token);
           localStorage.setItem('userName', response.data.username);
-          dispatch(changeStatus(true));
-          dispatch(authorization());
+          dispatch(authorization({name: response.data.username, token: response.data.token}));
           navigate('/', { replace: false });
         })
         .catch(() => {

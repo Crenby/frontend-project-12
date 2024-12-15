@@ -14,11 +14,12 @@ const Messages = () => {
   const messages = useSelector((state) => state.messages.messages);
   const activeChannel = useSelector((state) => state.channels.activeChannel);
   const socket = io();
+  const token = useSelector((state) => state.authorization.userToken);
 
   socket.on('newMessage', () => {
     axios.get('/api/v1/messages', {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        Authorization: `Bearer ${token}`,
       },
     }).then((response) => {
       dispatch(getMessages(response.data));
@@ -36,7 +37,7 @@ const Messages = () => {
 
       axios.post('/api/v1/messages', newMessage, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          Authorization: `Bearer ${token}`,
         },
       }).then(() => {
         formik.resetForm();
@@ -47,7 +48,7 @@ const Messages = () => {
   useEffect(() => {
     axios.get('/api/v1/messages', {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        Authorization: `Bearer ${token}`,
       },
     }).then((response) => {
       dispatch(getMessages(response.data));

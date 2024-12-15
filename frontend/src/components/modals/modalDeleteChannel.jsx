@@ -9,11 +9,12 @@ const ModalDeleteChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const deleteModalStatus = useSelector((state) => state.modals.deleteModal);
+  const token = useSelector((state) => state.authorization.userToken);
 
   const removeChannel = () => {
     axios.delete(`/api/v1/channels/${deleteModalStatus}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then(() => {

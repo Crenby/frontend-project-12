@@ -1,12 +1,15 @@
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import * as yup from 'yup';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { authorization } from '../slices/authorizationSlice.js';
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const [failedRegistration, setFailedRegistration] = useState(false);
 
@@ -37,6 +40,7 @@ const SignUp = () => {
               localStorage.clear();
               localStorage.setItem('userToken', response.data.token);
               localStorage.setItem('userName', response.data.username);
+              dispatch(authorization({ name: response.data.username, token: response.data.token }));
               navigate('/', { replace: false });
             });
         })

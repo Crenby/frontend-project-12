@@ -23,13 +23,14 @@ const Channels = () => {
   const addModalStatus = useSelector((state) => state.modals.addModal);
   const renameModalStatus = useSelector((state) => state.modals.renameModal);
   const deleteModalStatus = useSelector((state) => state.modals.deleteModal);
+  const token = useSelector((state) => state.authorization.userToken);
 
   const socket = io();
 
   function upDataChannels() {
     axios.get('/api/v1/channels', {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        Authorization: `Bearer ${token}`,
       },
     }).then((response) => {
       dispatch(getChannels(response.data));
@@ -49,12 +50,12 @@ const Channels = () => {
   });
 
   useEffect(() => {
-    if (!localStorage.getItem('userToken')) {
+    if (!token) {
       navigate('/login', { replace: false });
     } else {
       axios.get('/api/v1/channels', {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          Authorization: `Bearer ${token}`,
         },
       }).then((response) => {
         dispatch(getChannels(response.data));

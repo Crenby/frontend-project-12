@@ -3,22 +3,19 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   userName: '',
   userToken: '',
-  status: false,
 };
 
 const authorizationSlice = createSlice({
   name: 'authorization',
   initialState,
   reducers: {
-    authorization: (state) => ({
-      ...state,
-      userName: localStorage.getItem('userName'),
-      userToken: localStorage.getItem('userToken'),
+    authorization: (state, { payload }) => ({
+      userName: payload.name,
+      userToken: payload.token,
     }),
-    changeStatus: (state, { payload: status }) => ({ status }),
   },
 });
 
-export const { authorization, changeStatus } = authorizationSlice.actions;
+export const { authorization } = authorizationSlice.actions;
 
 export default authorizationSlice.reducer;
