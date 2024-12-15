@@ -53,7 +53,7 @@ const Messages = () => {
     }).then((response) => {
       dispatch(getMessages(response.data));
     });
-  }, [dispatch]);
+  }, [dispatch, token]);
 
   return (
     <div className="col p-0 h-100">

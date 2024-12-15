@@ -14,11 +14,11 @@ const Login = () => {
   const [authorizationFailed, setAuthorizationFailed] = useState(false);
 
   useLayoutEffect(() => {
-    if(localStorage.getItem('userToken')) {
-      dispatch(authorization({name: localStorage.getItem('userName'), token: localStorage.getItem('userToken')}));
+    if (localStorage.getItem('userToken')) {
+      dispatch(authorization({ name: localStorage.getItem('userName'), token: localStorage.getItem('userToken') }));
       navigate('/', { replace: false });
     }
-  }, [dispatch]);
+  }, [dispatch, navigate]);
 
   const formik = useFormik({
     initialValues: {
@@ -33,7 +33,7 @@ const Login = () => {
           localStorage.clear();
           localStorage.setItem('userToken', response.data.token);
           localStorage.setItem('userName', response.data.username);
-          dispatch(authorization({name: response.data.username, token: response.data.token}));
+          dispatch(authorization({ name: response.data.username, token: response.data.token }));
           navigate('/', { replace: false });
         })
         .catch(() => {

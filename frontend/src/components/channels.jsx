@@ -61,7 +61,7 @@ const Channels = () => {
         dispatch(getChannels(response.data));
       });
     }
-  }, [dispatch, navigate]);
+  }, [dispatch, navigate, token]);
 
   const ref = useRef(null);
   useOnClickOutside(ref, () => {
