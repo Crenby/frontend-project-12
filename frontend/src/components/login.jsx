@@ -15,7 +15,7 @@ const Login = () => {
     if (token) {
       navigate('/', { replace: false });
     }
-  }, [dispatch, navigate]);
+  }, [dispatch, navigate, token]);
 
   return (
     <>

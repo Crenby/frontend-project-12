@@ -8,9 +8,9 @@ function settingApi(token) {
   return {
     headers: {
       Authorization: `Bearer ${token}`,
-    }
+    },
   };
-}; 
+}
 
 export default {
   getChannels: (token) => axios.get(`${apiPath}/channels`, settingApi(token)),
