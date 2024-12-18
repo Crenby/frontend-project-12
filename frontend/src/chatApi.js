@@ -4,12 +4,15 @@ import store from './slices/index.js';
 
 const apiPath = '/api/v1';
 const socket = io();
-const token = store.getState().authorization.userToken;
+
+function getToken() {
+  return store.getState().authorization.userToken;
+}
 
 function settingApi() {
   return {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${getToken()}`,
     },
   };
 }
