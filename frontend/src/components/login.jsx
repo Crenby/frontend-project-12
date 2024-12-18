@@ -1,8 +1,7 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { authorization } from '../slices/authorizationSlice.js';
 import LoginForm from './forms/LoginForm.jsx';
 import AvatarImage from '../assets/loginLogo.jfif';
 
@@ -10,10 +9,10 @@ const Login = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const token = useSelector((state) => state.authorization.userToken);
 
   useLayoutEffect(() => {
-    if (localStorage.getItem('userToken')) {
-      dispatch(authorization({ name: localStorage.getItem('userName'), token: localStorage.getItem('userToken') }));
+    if (token) {
       navigate('/', { replace: false });
     }
   }, [dispatch, navigate]);

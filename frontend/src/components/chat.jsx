@@ -1,14 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import Messages from './messages.jsx';
 import Channels from './channels.jsx';
+import { authorization } from '../slices/authorizationSlice.js';
 
 const Chat = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const getOut = () => {
     localStorage.clear();
+    dispatch(authorization({ name: '', token: '' }));
     navigate('/login', { replace: false });
   };
 

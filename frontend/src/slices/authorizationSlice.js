@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  userName: '',
-  userToken: '',
+  userName: localStorage.getItem('userName'),
+  userToken: localStorage.getItem('userToken'),
 };
 
 const authorizationSlice = createSlice({

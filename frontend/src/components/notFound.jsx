@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import ImageNotFound from '../assets/notfound.svg';
+import { Link } from 'react-router-dom';
 
 const NotFound = () => {
   const { t } = useTranslation();
@@ -17,7 +18,7 @@ const NotFound = () => {
         <h1 className="h4 text-muted">{t('notFound')}</h1>
         <p className="text-muted">
           {t('youCanGo')}
-          <a href="/">{t('toHomePage')}</a>
+          <Link href="/">{t('toHomePage')}</Link>
         </p>
       </div>
     </>
