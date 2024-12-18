@@ -41,7 +41,7 @@ const Channels = () => {
     } else {
       upDataChannels();
     }
-  }, [dispatch, navigate, token, upDataChannels]);
+  }, [dispatch, navigate, token]);
 
   const ref = useRef(null);
   useOnClickOutside(ref, () => {
