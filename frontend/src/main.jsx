@@ -21,7 +21,7 @@ const init = () => {
 
   const root = createRoot(document.getElementById('root'));
 
-  root.render (
+  root.render(
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
         <I18nextProvider i18n={i18n}>
@@ -30,7 +30,7 @@ const init = () => {
           </Provider>
         </I18nextProvider>
       </ErrorBoundary>
-    </RollbarProvider>
+    </RollbarProvider>,
   );
 };
 
