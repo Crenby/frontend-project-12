@@ -14,11 +14,6 @@ const Messages = () => {
   const activeChannel = useSelector((state) => state.channels.activeChannel);
   const token = useSelector((state) => state.authorization.userToken);
 
-  chatApi.socketNewMessage(chatApi.getMessages()
-    .then((response) => {
-      dispatch(getMessages(response.data));
-    }));
-
   const formik = useFormik({
     initialValues: {
       messageText: '',

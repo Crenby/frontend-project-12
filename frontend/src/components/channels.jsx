@@ -24,22 +24,14 @@ const Channels = () => {
   const deleteModalStatus = useSelector((state) => state.modals.deleteModal);
   const token = useSelector((state) => state.authorization.userToken);
 
-  function upDataChannels() {
-    chatApi.getChannels()
-      .then((response) => {
-        dispatch(getChannels(response.data));
-      });
-  }
-
-  chatApi.socketNewChannel(upDataChannels);
-  chatApi.socketRemoveChannel(upDataChannels);
-  chatApi.socketRenameChannel(upDataChannels);
-
   useEffect(() => {
     if (!token) {
       navigate('/login', { replace: false });
     } else {
-      upDataChannels();
+      chatApi.getChannels()
+        .then((response) => {
+          dispatch(getChannels(response.data));
+        });
     }
   }, [dispatch, navigate, token]);
 
