@@ -25,7 +25,7 @@ const Channels = () => {
   const token = useSelector((state) => state.authorization.userToken);
 
   function upDataChannels() {
-    chatApi.getChannels(token)
+    chatApi.getChannels()
       .then((response) => {
         dispatch(getChannels(response.data));
       });

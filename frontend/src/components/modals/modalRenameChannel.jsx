@@ -13,7 +13,6 @@ const ModalRenameChannel = () => {
   const dispatch = useDispatch();
   const renameModalStatus = useSelector((state) => state.modals.renameModal);
   const channels = useSelector((state) => state.channels.channels);
-  const token = useSelector((state) => state.authorization.userToken);
 
   const validate = yup.object().shape({
     newChannelName: yup.string().required(t('required'))
@@ -32,7 +31,7 @@ const ModalRenameChannel = () => {
     onSubmit: (values) => {
       const cleanedName = leoProfanity.clean(values.newChannelName);
       const editedChannel = { name: cleanedName };
-      chatApi.editChannel(editedChannel, token, renameModalStatus)
+      chatApi.editChannel(editedChannel, renameModalStatus)
         .then((response) => {
           dispatch(setActiveChannel(response.data));
           toast.info(t('toast.renamedChannel'));

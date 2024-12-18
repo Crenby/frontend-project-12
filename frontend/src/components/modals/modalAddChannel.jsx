@@ -13,7 +13,6 @@ const ModalAddChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const channels = useSelector((state) => state.channels.channels);
-  const token = useSelector((state) => state.authorization.userToken);
 
   const validate = yup.object().shape({
     channelName: yup.string().required(t('required'))
@@ -32,7 +31,7 @@ const ModalAddChannel = () => {
     onSubmit: (values) => {
       const cleanedName = leoProfanity.clean(values.channelName);
       const newChannel = { name: cleanedName };
-      chatApi.addChannel(newChannel, token)
+      chatApi.addChannel(newChannel)
         .then((response) => {
           dispatch(setActiveChannel(response.data));
           toast.success(t('toast.createChannel'));

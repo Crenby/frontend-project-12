@@ -14,7 +14,7 @@ const Messages = () => {
   const activeChannel = useSelector((state) => state.channels.activeChannel);
   const token = useSelector((state) => state.authorization.userToken);
 
-  chatApi.socketNewMessage(chatApi.getMessages(token)
+  chatApi.socketNewMessage(chatApi.getMessages()
     .then((response) => {
       dispatch(getMessages(response.data));
     }));
@@ -28,7 +28,7 @@ const Messages = () => {
       const cleanedMessage = leoProfanity.clean(values.messageText);
       const newMessage = { body: cleanedMessage, channelId: activeChannel.channelId, username: localStorage.getItem('userName') };
 
-      chatApi.addMessage(newMessage, token)
+      chatApi.addMessage(newMessage)
         .then(() => {
           formik.resetForm();
         });
@@ -36,7 +36,7 @@ const Messages = () => {
   });
 
   useEffect(() => {
-    chatApi.getMessages(token)
+    chatApi.getMessages()
       .then((response) => {
         dispatch(getMessages(response.data));
       });

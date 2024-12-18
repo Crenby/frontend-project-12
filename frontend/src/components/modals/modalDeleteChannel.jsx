@@ -9,10 +9,9 @@ const ModalDeleteChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const deleteModalStatus = useSelector((state) => state.modals.deleteModal);
-  const token = useSelector((state) => state.authorization.userToken);
 
   const removeChannel = () => {
-    chatApi.removeChannel(token, deleteModalStatus)
+    chatApi.removeChannel(deleteModalStatus)
       .then(() => {
         dispatch(setActiveChannel({ name: 'general', channelId: '1' }));
         toast.warn(t('toast.removeChannel'));
