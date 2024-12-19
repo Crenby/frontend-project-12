@@ -47,11 +47,11 @@ const ModalRenameChannel = () => {
   return (
     <>
       <div className="fade modal-backdrop show" />
-      <div 
-        role="dialog" 
-        aria-modal="true" 
-        className="fade modal show" 
-        tabIndex="-1" 
+      <div
+        role="dialog"
+        aria-modal="true"
+        className="fade modal show"
+        tabIndex="-1"
         style={{ paddingRight: '17px', display: 'block' }}
       >
         <div className="modal-dialog modal-dialog-centered">
@@ -60,26 +60,26 @@ const ModalRenameChannel = () => {
               <h4 className="modal-title">
                 {t('modals.renameChannel')}
               </h4>
-              <button 
-                onClick={closeModal} 
-                type="button" 
-                aria-label="Close" 
-                data-bs-dismiss="modal" 
-                className="btn btn-close" 
+              <button
+                onClick={closeModal}
+                type="button"
+                aria-label="Close"
+                data-bs-dismiss="modal"
+                className="btn btn-close"
               />
             </div>
             <div className="modal-body">
               <form onSubmit={formik.handleSubmit}>
                 <div>
-                  <input 
-                    name="newChannelName" 
-                    id="newChannelName" 
-                    className="mb-2 form-control" 
-                    onChange={formik.handleChange} 
-                    value={formik.values.newChannelName} 
+                  <input
+                    name="newChannelName"
+                    id="newChannelName"
+                    className="mb-2 form-control"
+                    onChange={formik.handleChange}
+                    value={formik.values.newChannelName}
                   />
-                  <label 
-                    className="visually-hidden" 
+                  <label
+                    className="visually-hidden"
                     htmlFor="newChannelName"
                   >
                     {t('modals.nameChannel')}
@@ -90,15 +90,15 @@ const ModalRenameChannel = () => {
                     </div>
                   )}
                   <div className="d-flex justify-content-end">
-                    <button 
-                      onClick={closeModal} 
-                      type="button" 
+                    <button
+                      onClick={closeModal}
+                      type="button"
                       className="me-2 btn btn-secondary"
                     >
                       {t('modals.cancelButton')}
                     </button>
-                    <button 
-                      type="submit" 
+                    <button
+                      type="submit"
                       className="btn btn-primary"
                     >
                       {t('send')}

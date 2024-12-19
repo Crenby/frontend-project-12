@@ -3,25 +3,25 @@ import store from './slices/index.js';
 
 const apiPath = '/api/v1';
 
-function getToken() {
-  return store.getState().authorization.userToken;
-}
+const apiClient = axios.create({
+  baseURL: apiPath,
+});
 
-function settingApi() {
-  return {
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-  };
-}
+apiClient.interceptors.request.use((config) => {
+  const token = store.getState().authorization.userToken;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 export default {
-  getChannels: () => axios.get(`${apiPath}/channels`, settingApi()),
-  addChannel: (newChannel) => axios.post(`${apiPath}/channels`, newChannel, settingApi()),
-  editChannel: (editedChannel, id) => axios.patch(`${apiPath}/channels/${id}`, editedChannel, settingApi()),
-  removeChannel: (id) => axios.delete(`${apiPath}/channels/${id}`, settingApi()),
-  getMessages: () => axios.get(`${apiPath}/messages`, settingApi()),
-  addMessage: (newMessage) => axios.post(`${apiPath}/messages`, newMessage, settingApi()),
-  signup: (name, pass) => axios.post(`${apiPath}/signup`, { username: name, password: pass }),
-  login: (name, pass) => axios.post(`${apiPath}/login`, { username: name, password: pass }),
+  getChannels: () => apiClient.get('/channels'),
+  addChannel: (newChannel) => apiClient.post('/channels', newChannel),
+  editChannel: (editedChannel, id) => apiClient.patch(`/channels/${id}`, editedChannel),
+  removeChannel: (id) => apiClient.delete(`/channels/${id}`),
+  getMessages: () => apiClient.get('/messages'),
+  addMessage: (newMessage) => apiClient.post('/messages', newMessage),
+  signup: (username, password) => apiClient.post('/signup', { username, password }),
+  login: (username, password) => apiClient.post('/login', { username, password }),
 };

@@ -23,14 +23,12 @@ const LoginForm = () => {
       chatApi.login(values.name, values.password)
         .then((response) => {
           setAuthorizationFailed(false);
-          localStorage.clear();
           localStorage.setItem('userToken', response.data.token);
           localStorage.setItem('userName', response.data.username);
           dispatch(authorization({ name: response.data.username, token: response.data.token }));
           navigate('/', { replace: false });
         })
         .catch(() => {
-          localStorage.clear();
           setAuthorizationFailed(true);
         });
     },

@@ -37,7 +37,6 @@ const RegistrationForm = () => {
         .then((resp) => {
           chatApi.login(resp.data.username, values.userPassword)
             .then((response) => {
-              localStorage.clear();
               localStorage.setItem('userToken', response.data.token);
               localStorage.setItem('userName', response.data.username);
               dispatch(authorization({ name: response.data.username, token: response.data.token }));
