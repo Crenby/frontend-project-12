@@ -14,8 +14,12 @@ const ModalRenameChannel = () => {
   const renameModalStatus = useSelector((state) => state.modals.renameModal);
   const channels = useSelector((state) => state.channels.channels);
 
-  const validate = yup.object().shape({
-    newChannelName: yup.string().required(t('required'))
+  const closeModal = () => dispatch(setRenameModalStatus({ status: false }));
+
+  const validate = yup.object({
+    newChannelName: yup
+      .string()
+      .required(t('required'))
       .min(3, t('newChannelLength', { min: 3, max: 20 }))
       .max(20, t('newChannelLength', { min: 3, max: 20 }))
       .notOneOf(channels.map((channel) => channel.name), t('duplicate')),
@@ -25,40 +29,80 @@ const ModalRenameChannel = () => {
     initialValues: {
       newChannelName: '',
     },
-
     validationSchema: validate,
-
-    onSubmit: (values) => {
-      const cleanedName = leoProfanity.clean(values.newChannelName);
-      const editedChannel = { name: cleanedName };
-      chatApi.editChannel(editedChannel, renameModalStatus)
-        .then((response) => {
-          dispatch(setActiveChannel(response.data));
-          toast.info(t('toast.renamedChannel'));
-          dispatch(setRenameModalStatus({ status: false }));
-        });
+    onSubmit: async (values) => {
+      try {
+        const cleanedName = leoProfanity.clean(values.newChannelName);
+        const editedChannel = { name: cleanedName };
+        const response = await chatApi.editChannel(editedChannel, renameModalStatus);
+        dispatch(setActiveChannel(response.data));
+        toast.info(t('toast.renamedChannel'));
+        closeModal();
+      } catch (error) {
+        toast.error(t('toast.error'));
+      }
     },
   });
 
   return (
     <>
       <div className="fade modal-backdrop show" />
-      <div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{ paddingRight: '17px', display: 'block' }}>
+      <div 
+        role="dialog" 
+        aria-modal="true" 
+        className="fade modal show" 
+        tabIndex="-1" 
+        style={{ paddingRight: '17px', display: 'block' }}
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <div className="modal-title h4">{t('modals.renameChannel')}</div>
-              <button onClick={() => dispatch(setRenameModalStatus({ status: false }))} type="button" aria-label="Close" data-bs-dismiss="modal" className="btn btn-close" />
+              <h4 className="modal-title">
+                {t('modals.renameChannel')}
+              </h4>
+              <button 
+                onClick={closeModal} 
+                type="button" 
+                aria-label="Close" 
+                data-bs-dismiss="modal" 
+                className="btn btn-close" 
+              />
             </div>
             <div className="modal-body">
-              <form className="" onSubmit={formik.handleSubmit}>
+              <form onSubmit={formik.handleSubmit}>
                 <div>
-                  <input name="newChannelName" id="newChannelName" className="mb-2 form-control" onChange={formik.handleChange} value={formik.values.newChannelName} />
-                  <label className="visually-hidden" htmlFor="newChannelName">{t('modals.nameChannel')}</label>
-                  {formik.errors.newChannelName ? <div className="invalid-feedback" style={{ display: 'block' }}>{formik.errors.newChannelName}</div> : null}
+                  <input 
+                    name="newChannelName" 
+                    id="newChannelName" 
+                    className="mb-2 form-control" 
+                    onChange={formik.handleChange} 
+                    value={formik.values.newChannelName} 
+                  />
+                  <label 
+                    className="visually-hidden" 
+                    htmlFor="newChannelName"
+                  >
+                    {t('modals.nameChannel')}
+                  </label>
+                  {formik.errors.newChannelName && formik.touched.newChannelName && (
+                    <div className="invalid-feedback" style={{ display: 'block' }}>
+                      {formik.errors.newChannelName}
+                    </div>
+                  )}
                   <div className="d-flex justify-content-end">
-                    <button onClick={() => dispatch(setRenameModalStatus({ status: false }))} type="button" className="me-2 btn btn-secondary">{t('modals.cancelButton')}</button>
-                    <button type="submit" className="btn btn-primary">{t('send')}</button>
+                    <button 
+                      onClick={closeModal} 
+                      type="button" 
+                      className="me-2 btn btn-secondary"
+                    >
+                      {t('modals.cancelButton')}
+                    </button>
+                    <button 
+                      type="submit" 
+                      className="btn btn-primary"
+                    >
+                      {t('send')}
+                    </button>
                   </div>
                 </div>
               </form>
