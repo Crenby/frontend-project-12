@@ -50,7 +50,7 @@ const ModalAddChannel = () => {
         <Modal.Title>
           {t('modals.addChannel')}
         </Modal.Title>
-        <Button variant="close" onClick={closeModal}></Button>
+        <Button variant="close" onClick={closeModal} />
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
