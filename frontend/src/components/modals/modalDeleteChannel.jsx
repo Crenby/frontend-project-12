@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { Button, Modal, Form } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { setActiveChannel } from '../../slices/channelsSlice.js';
 import { setDeleteModalStatus } from '../../slices/modalsSlice.js';
 import chatApi from '../../chatApi.js';
