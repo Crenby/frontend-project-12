@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
 import leoProfanity from 'leo-profanity';
-import cn from 'classnames';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { Button, Modal, Form } from 'react-bootstrap';
 import { setAddModalStatus } from '../../slices/modalsSlice.js';
 import { setActiveChannel } from '../../slices/channelsSlice.js';
 import chatApi from '../../chatApi.js';
@@ -44,70 +44,44 @@ const ModalAddChannel = () => {
     },
   });
 
-  const inputClass = cn('form-control', 'mb-2', {
-    'is-invalid': formik.errors.channelName && formik.touched.channelName,
-  });
-
   return (
-    <>
-      <div className="fade modal-backdrop show" />
-      <div
-        role="dialog"
-        aria-modal="true"
-        className="fade modal show"
-        tabIndex="-1"
-        style={{ paddingRight: '17px', display: 'block' }}
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h4 className="modal-title">{t('modals.addChannel')}</h4>
-              <button
-                onClick={closeModal}
-                type="button"
-                aria-label="Close"
-                data-bs-dismiss="modal"
-                className="btn btn-close"
-              />
-            </div>
-            <div className="modal-body">
-              <form className="" onSubmit={formik.handleSubmit}>
-                <div>
-                  <input
-                    name="channelName"
-                    id="channelName"
-                    className={inputClass}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.channelName}
-                  />
-                  <label className="visually-hidden" htmlFor="channelName">
-                    {t('modals.nameChannel')}
-                  </label>
-                  {formik.touched.channelName && formik.errors.channelName && (
-                    <div className="invalid-feedback" style={{ display: 'block' }}>
-                      {formik.errors.channelName}
-                    </div>
-                  )}
-                  <div className="d-flex justify-content-end">
-                    <button
-                      onClick={closeModal}
-                      type="button"
-                      className="me-2 btn btn-secondary"
-                    >
-                      {t('modals.cancelButton')}
-                    </button>
-                    <button type="submit" className="btn btn-primary">
-                      {t('send')}
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+    <Modal show>
+      <Modal.Header>
+        <Modal.Title>
+          {t('modals.addChannel')}
+        </Modal.Title>
+        <Button variant="close" onClick={closeModal}></Button>
+      </Modal.Header>
+      <Modal.Body>
+        <Form onSubmit={formik.handleSubmit}>
+          <Form.Label>
+            {t('modals.nameChannel')}
+          </Form.Label>
+          <Form.Control
+            name="channelName"
+            id="channelName"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.channelName}
+            autoFocus
+            isInvalid={formik.errors.channelName}
+          />
+          {formik.touched.channelName && formik.errors.channelName && (
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.channelName}
+            </Form.Control.Feedback>
+          )}
+          <Modal.Footer>
+            <Button variant="secondary" onClick={closeModal}>
+              {t('modals.cancelButton')}
+            </Button>
+            <Button variant="primary" type="submit">
+              {t('send')}
+            </Button>
+          </Modal.Footer>
+        </Form>
+      </Modal.Body>
+    </Modal>
   );
 };
 
