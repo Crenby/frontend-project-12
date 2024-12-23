@@ -107,7 +107,7 @@ const RegistrationForm = () => {
             }
           />
           <Form.Control.Feedback type="invalid">
-            {formik.errors.confirmPassword}
+            {formik.errors.confirmPassword || failedRegistration}
           </Form.Control.Feedback>
         </FloatingLabel>
       </Form.Group>
