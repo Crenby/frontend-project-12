@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import * as yup from 'yup';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Button, Form, FloatingLabel } from 'react-bootstrap';
 import { authorization } from '../../slices/authorizationSlice.js';
 import chatApi from '../../chatApi.js';
 
@@ -52,25 +53,68 @@ const RegistrationForm = () => {
   });
 
   return (
-    <form className="w-50" onSubmit={formik.handleSubmit}>
-      <h1 className="text-center mb-4">{t('signUp')}</h1>
-      <div className="form-floating mb-3">
-        <input placeholder={t('signUpPage.minUsernameLenght')} name="userName" autoComplete="userName" required="" id="userName" className="form-control" onChange={formik.handleChange} value={formik.values.userName} />
-        <label className="form-label" htmlFor="userName">{t('signUpPage.username')}</label>
-        {formik.errors.userName ? <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.userName}</div> : null}
-      </div>
-      <div className="form-floating mb-3">
-        <input placeholder={t('signUpPage.minPasswordLenght')} name="userPassword" aria-describedby="passwordHelpBlock" required="" autoComplete="new-password" type="password" id="userPassword" className="form-control" onChange={formik.handleChange} value={formik.values.userPassword} />
-        <label className="form-label" htmlFor="userPassword">{t('password')}</label>
-        {formik.errors.userPassword ? <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.userPassword}</div> : null}
-      </div>
-      <div className="form-floating mb-4">
-        <input placeholder={t('signUpPage.notConfirmPassword')} name="confirmPassword" required="" autoComplete="new-password" type="password" id="confirmPassword" className="form-control" onChange={formik.handleChange} value={formik.values.confirmPassword} />
-        <label className="form-label" htmlFor="confirmPassword">{t('signUpPage.repeatPassword')}</label>
-        {formik.errors.confirmPassword || failedRegistration ? <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.confirmPassword || failedRegistration}</div> : null}
-      </div>
-      <button type="submit" className="w-100 btn btn-outline-primary">{t('signUpPage.signUp')}</button>
-    </form>
+    <Form onSubmit={formik.handleSubmit}>
+      <h1 className="text-center mb-4">
+        {t('signUp')}
+      </h1>
+      <Form.Group className="mb-3">
+        <FloatingLabel htmlFor="userName" controlId="userName" label={t('signUpPage.username')}>
+          <Form.Control
+            name="userName"
+            placeholder={t('signUpPage.username')}
+            onChange={formik.handleChange}
+            value={formik.values.userName}
+            isInvalid={
+              (formik.errors.userName && formik.touched.userName)
+              || failedRegistration
+            }
+          />
+          <Form.Control.Feedback type="invalid">
+            {formik.errors.userName || null}
+          </Form.Control.Feedback>
+        </FloatingLabel>
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <FloatingLabel htmlFor="userPassword" controlId="userPassword" label={t('password')}>
+          <Form.Control
+            name="userPassword"
+            type="password"
+            placeholder={t('password')}
+            onChange={formik.handleChange}
+            value={formik.values.userPassword}
+            isInvalid={
+              (formik.errors.userPassword && formik.touched.userPassword)
+              || failedRegistration
+            }
+          />
+          <Form.Control.Feedback type="invalid">
+            {formik.errors.userPassword || null}
+          </Form.Control.Feedback>
+        </FloatingLabel>
+      </Form.Group>
+      <Form.Group className="mb-4">
+        <FloatingLabel htmlFor="confirmPassword" controlId="confirmPassword" label={t('signUpPage.repeatPassword')}>
+          <Form.Control
+            name="confirmPassword"
+            type="password"
+            placeholder={t('signUpPage.repeatPassword')}
+            onChange={formik.handleChange}
+            value={formik.values.confirmPassword}
+            onBlur={formik.handleBlur}
+            isInvalid={
+              (formik.errors.confirmPassword && formik.touched.confirmPassword)
+              || failedRegistration
+            }
+          />
+          <Form.Control.Feedback type="invalid">
+            {formik.errors.confirmPassword}
+          </Form.Control.Feedback>
+        </FloatingLabel>
+      </Form.Group>
+      <Button variant="outline-primary" className="w-100" type="submit">
+        {t('signUpPage.signUp')}
+      </Button>
+    </Form>
   );
 };
 
