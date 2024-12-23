@@ -40,7 +40,7 @@ const LoginForm = () => {
         {t('enter')}
       </h1>
       <Form.Group className="form-floating mb-3">
-        <FloatingLabel htmlFor="name" label={t('username')}>
+        <FloatingLabel htmlFor="name" controlId="name" label={t('username')}>
           <Form.Control
             id="name"
             name="name"
@@ -53,7 +53,7 @@ const LoginForm = () => {
         </FloatingLabel>
       </Form.Group>
       <Form.Group className="form-floating mb-4">
-        <FloatingLabel htmlFor="password" label={t('password')}>
+        <FloatingLabel htmlFor="password" controlId="password" label={t('password')}>
           <Form.Control
             id="password"
             name="password"
@@ -63,9 +63,11 @@ const LoginForm = () => {
             value={formik.values.password}
             isInvalid={authorizationFailed}
           />
-          <Form.Control.Feedback type="invalid">
-            {t('noValidUsername')}
-          </Form.Control.Feedback>
+          {authorizationFailed && (
+            <Form.Control.Feedback type="invalid">
+              {t('noValidUsername')}
+            </Form.Control.Feedback>
+          )}
         </FloatingLabel>
       </Form.Group>
       <Button variant="outline-primary" className="w-100" type="submit">
