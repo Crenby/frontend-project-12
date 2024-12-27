@@ -1,6 +1,3 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Col, Container, Card, Row,
@@ -10,15 +7,6 @@ import AvatarImage from '../assets/loginLogo.jfif';
 
 const Login = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const token = useSelector((state) => state.authorization.userToken);
-
-  useLayoutEffect(() => {
-    if (token) {
-      navigate('/', { replace: false });
-    }
-  }, [dispatch, navigate, token]);
 
   return (
     <>
