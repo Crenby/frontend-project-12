@@ -4,11 +4,8 @@ import { useSelector } from 'react-redux';
 import Chat from './chat';
 
 const PrivateRoute = () => {
-  const isAuthenticated = () => {
-    const token = useSelector((state) => state.authorization.userToken);
-    return !!token;
-  };
-  
+  const token = useSelector((state) => state.authorization.userToken);
+  const isAuthenticated = () => !!token;
   return isAuthenticated() ? <Chat /> : <Navigate to="/login" />;
 };
 
