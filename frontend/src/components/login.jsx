@@ -2,7 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Col, Container, Card, Row } from 'react-bootstrap';
+import {
+  Col, Container, Card, Row 
+} from 'react-bootstrap';
 import LoginForm from './forms/LoginForm.jsx';
 import AvatarImage from '../assets/loginLogo.jfif';
 
