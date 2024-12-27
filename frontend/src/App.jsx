@@ -4,6 +4,7 @@ import NotFound from './components/notFound.jsx';
 import Login from './components/login.jsx';
 import SignUp from './components/signup.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
+import Chat from './components/chat.jsx';
 
 const App = () => (
   <BrowserRouter>
@@ -11,7 +12,7 @@ const App = () => (
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route path="login" element={<Login />} />
-        <Route path="/" element={<PrivateRoute />} />
+        <Route path="/" element={<PrivateRoute component={Chat} />} />
         <Route path="signup" element={<SignUp />} />
       </Routes>
     </div>
