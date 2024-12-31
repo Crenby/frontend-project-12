@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
@@ -14,7 +13,6 @@ import chatApi from '../chatApi.js';
 
 const Channels = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const channels = useSelector((state) => state.channels.channels);
   const activeChannel = useSelector((state) => state.channels.activeChannel);
@@ -22,18 +20,13 @@ const Channels = () => {
   const addModalStatus = useSelector((state) => state.modals.addModal);
   const renameModalStatus = useSelector((state) => state.modals.renameModal);
   const deleteModalStatus = useSelector((state) => state.modals.deleteModal);
-  const token = useSelector((state) => state.authorization.userToken);
 
   useEffect(() => {
-    if (!token) {
-      navigate('/login', { replace: false });
-    } else {
-      chatApi.getChannels()
-        .then((response) => {
-          dispatch(getChannels(response.data));
-        });
-    }
-  }, [dispatch, navigate, token]);
+    chatApi.getChannels()
+      .then((response) => {
+        dispatch(getChannels(response.data));
+      });
+  }, [dispatch]);
 
   const ref = useRef(null);
   useOnClickOutside(ref, () => {

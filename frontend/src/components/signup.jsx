@@ -4,17 +4,14 @@ import {
 } from 'react-bootstrap';
 import RegistrationForm from './forms/RegistrationForm.jsx';
 import AvatarSignup from '../assets/avatar_signup.jpg';
+import Header from './header.jsx';
 
 const SignUp = () => {
   const { t } = useTranslation();
 
   return (
     <>
-      <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
-        <Container>
-          <a className="navbar-brand" href="/"> Hexlet Chat</a>
-        </Container>
-      </nav>
+      <Header />
       <Container className="h-100" fluid>
         <Row className="justify-content-center align-content-center h-100">
           <Col className="col-12 col-md-8 col-xxl-6">

@@ -2,21 +2,17 @@ import { useTranslation } from 'react-i18next';
 import {
   Col, Container, Card, Row,
 } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import LoginForm from './forms/LoginForm.jsx';
 import AvatarImage from '../assets/loginLogo.jfif';
+import Header from './header.jsx';
 
 const Login = () => {
   const { t } = useTranslation();
 
   return (
     <>
-      <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
-        <Container>
-          <a className="navbar-brand" href="/">
-            Hexlet Chat
-          </a>
-        </Container>
-      </nav>
+      <Header />
       <Container className="h-100" fluid>
         <Row className="justify-content-center align-content-center h-100">
           <Col className="col-12 col-md-8 col-xxl-6">
@@ -32,9 +28,9 @@ const Login = () => {
                   <span>
                     {t('notAccount')}
                   </span>
-                  <a href="/signup">
+                  <Link to="/signup">
                     {t('signUp')}
-                  </a>
+                  </Link>
                 </div>
               </Card.Footer>
             </Card>
